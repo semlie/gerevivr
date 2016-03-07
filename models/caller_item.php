@@ -7,11 +7,19 @@
  */
 
 /**
- * Description of product
+ * Description of caller_item
  *
  * @author Admin
  */
-class product {
+class caller_item {
     //put your code here
     
+    public $id, $CallId, $Date;
+
+    function __construct($id, $callId, $date) {
+        $this->id = $id;
+        $this->CallId = $callId;
+        $this->Date = $date;
+    }
+
 }

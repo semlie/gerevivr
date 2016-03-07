@@ -7,11 +7,10 @@
  */
 
 /**
- * Description of product
+ * Description of order
  *
  * @author Admin
  */
-class product {
+class order {
     //put your code here
-    
 }
