@@ -11,17 +11,34 @@
  *
  * @author Admin
  */
-class order_item {
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../services/orderItem_dataService.php';
+
+class order_item extends ModelInfo{
 
     //put your code here
-    public $Uid, $Name, $Address, $Phone, $Satus;
+    //public $Uid, $Name, $Address, $Phone, $Satus;
+    public  $OrderId, $ProductId, $CollerId, $Quantity;
 
-    function __construct($uid, $name, $address, $phone, $satus) {
-        $this->Uid = $uid;
-        $this->Name = $name;
-        $this->Address = $address;
-        $this->Phone = $phone;
-        $this->Satus = $satus;
+    public function Add() {
+        $result = $this->dataService->Add($this);
+        $this->Id = $result;
+    }
+
+    public function Update() {
+        $result = $this->dataService->Update($this);
+        $this->Id = $result;
+    }
+
+    public function GetInsertString() {
+        $sql = "insert into `OrderItems` (`Id`, `OrderId`, `ProductId`, `CollerId`, `Quantity`, `TimeStamp`) "
+                . "VALUES (NULL, '" . $this->OrderId . "', '" . $this->ProductId . "', '" . $this->CollerId . "', '" . $this->Quantity . "', CURRENT_TIMESTAMP);  ";
+        return $sql;
+    }
+
+    public function GetUpdateString() {
+        $sql = "update `OrderItems` set `OrderId` = '" . $this->OrderId . "', `ProductId`='" . $this->ProductId . "', `CollerId` = '" . $this->CollerId . "', `Quantity` ='" . $this->Quantity . "' WHERE `Id` = '" . $this->Id . "'";
+        return $sql;
     }
 
 }

@@ -7,20 +7,12 @@
  */
 
 /**
- * Description of caller
+ * Description of sql_model
  *
  * @author Admin
  */
-class caller  extends sqlModel{
-    
-    
-    public function GetInsertString() {
-        
-    }
-
-    public function GetUpdateString() {
-        
-    }
-
-//put your code here
+interface sqlModel {
+    //put your code here
+    public function GetInsertString($object);
+    public function GetUpdateString($object);
 }

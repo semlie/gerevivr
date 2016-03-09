@@ -11,7 +11,7 @@
  *
  * @author Admin
  */
-class caller_item {
+class caller_item  extends sqlModel{
     //put your code here
     
     public $id, $CallId, $Date;
@@ -20,6 +20,14 @@ class caller_item {
         $this->id = $id;
         $this->CallId = $callId;
         $this->Date = $date;
+    }
+
+    public function GetInsertString() {
+        
+    }
+
+    public function GetUpdateString() {
+        
     }
 
 }
