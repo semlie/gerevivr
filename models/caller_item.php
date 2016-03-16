@@ -11,15 +11,13 @@
  *
  * @author Admin
  */
-class caller_item  extends sqlModel{
+class caller_item extends ModelInfo{
     //put your code here
     
-    public $id, $CallId, $Date;
+    public  $CallId;
 
-    function __construct($id, $callId, $date) {
-        $this->id = $id;
-        $this->CallId = $callId;
-        $this->Date = $date;
+    function __construct() {
+    
     }
 
     public function GetInsertString() {

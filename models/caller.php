@@ -11,7 +11,7 @@
  *
  * @author Admin
  */
-class caller  extends sqlModel{
+class caller extends ModelInfo{
     
     
     public function GetInsertString() {

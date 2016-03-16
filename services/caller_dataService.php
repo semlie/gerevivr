@@ -12,7 +12,7 @@
  * @author Admin
  */
 require_once __DIR__ . '/data_service.php';
-require_once __DIR__ . '/../models/order_item.php';
+require_once __DIR__ . '/../models/caller_item.php';
 require_once __DIR__ . '/../models/sql_model.php';
 require_once __DIR__ . '/../config.php';
 
@@ -32,32 +32,29 @@ class orderItem_dataService extends DataService implements sqlModel {
         parent::__construct(Config::getConttext(), "OrderItems");
     }
 
-    public function Add(order_item $orderItem) {
+    public function Add(caller_item $callerItem) {
 
-        $result = parent::Add($orderItem);
-        $orderItem->Id = $result;
+        $result = parent::Add($callerItem);
+        $callerItem->Id = $result;
     }
 
     public function mapToModel($row) {
-        $result = new order_item;
-        $result->CollerId = $row['CollerId'];
+        $result = new caller_item;
         $result->Id = $row['Id'];
-        $result->OrderId = $row['OrderId'];
-        $result->ProductId = $row['ProductId'];
-        $result->Quantity = $row['Quantity'];
+        $result->CallId = $row['CallId'];
         $result->TimeStamp = $row['TimeStamp'];
 
         return $result;
     }
 
-    public function GetInsertString($orderItem) {
+    public function GetInsertString($callerItem) {
         $sql = "insert into `OrderItems` (`Id`, `OrderId`, `ProductId`, `CollerId`, `Quantity`, `TimeStamp`) "
-                . "VALUES (NULL, '" . $orderItem->OrderId . "', '" . $orderItem->ProductId . "', '" . $orderItem->CollerId . "', '" . $orderItem->Quantity . "', CURRENT_TIMESTAMP);  ";
+                . "VALUES (NULL, '" . $callerItem->OrderId . "', '" . $callerItem->ProductId . "', '" . $callerItem->CollerId . "', '" . $callerItem->Quantity . "', CURRENT_TIMESTAMP);  ";
         return $sql;
     }
 
-    public function GetUpdateString($orderItem) {
-        $sql = "update `OrderItems` set `OrderId` = '" . $orderItem->OrderId . "', `ProductId`='" . $orderItem->ProductId . "', `CollerId` = '" . $orderItem->CollerId . "', `Quantity` ='" . $orderItem->Quantity . "' WHERE `Id` = '" . $orderItem->Id . "'";
+    public function GetUpdateString($callerItem) {
+        $sql = "update `OrderItems` set `OrderId` = '" . $callerItem->OrderId . "', `ProductId`='" . $callerItem->ProductId . "', `CollerId` = '" . $callerItem->CollerId . "', `Quantity` ='" . $callerItem->Quantity . "' WHERE `Id` = '" . $callerItem->Id . "'";
         return $sql;
     }
 

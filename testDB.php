@@ -8,7 +8,10 @@
 
 require_once __DIR__.'/models/order_item.php';
 require_once __DIR__."/models/contects.php";
+require_once __DIR__."/models/product.php";
 require_once __DIR__. '/services/orderItem_dataService.php';
+require_once __DIR__. '/services/order_dataService.php';
+require_once __DIR__. '/services/product_dataService.php';
 $conttext = new contects("ivr_orders","root","","localhost");
 
 $a = new \order_item($conttext);
@@ -26,3 +29,34 @@ $a->Quantity="2";
 $a->CollerId="13";
 $b->Update($a);
 $c =$b->GetAll();
+
+//var_dump($c);
+
+$d = $b->getById("31");
+
+echo "-----------";
+//var_dump($d);
+
+$e = new order;
+$f = new order_dataService;
+$e->CallerItemId = "2";
+$e->Is_Delivered = true;
+$e->Is_Paid = true;
+$e->TotalPrice = 12;
+$e->TotalQuantity = 2;
+$f->Add($e);
+
+$g = $f->GetAll();
+var_dump($g);
+
+$e->TotalPrice = rand(1,100);
+$f->Update($e);
+
+$h = $f->getById($e->Id);
+echo '-=-=-=-=-=-=-=';
+var_dump($h);
+
+$aas = new product_dataService();
+
+$aa = $aas->GetProductByCatalogNumber("10101");
+var_dump($aa);
