@@ -11,9 +11,9 @@
  *
  * @author Admin
  */
-require_once __DIR__. '/data_service.php';
-require_once __DIR__. '/../models/order.php';
-require_once __DIR__. '/../models/sql_model.php';
+require_once  realpath(dirname(__FILE__)). '/data_service.php';
+require_once  realpath(dirname(__FILE__)). '/../models/order.php';
+require_once  realpath(dirname(__FILE__)). '/../models/sql_model.php';
 
 
 class order_dataService  extends DataService implements sqlModel{

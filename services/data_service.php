@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../models/ModelInfo.php';
+require_once  realpath(dirname(__FILE__)) . '/../models/ModelInfo.php';
 
 abstract class DataService {
 

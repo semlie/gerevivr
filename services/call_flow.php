@@ -1,47 +1,56 @@
 <?php
+
 require '../models/product.php';
-/* 
+/*
  *
  * 
  */
 
-function init_call_flow(){
+class callFlow_manager {
     
-}
+    public $agi;
+    function __construct() {
+        
+    }
 
-function is_call_identified(){
-    
-}
+    public function init_call_flow() {
+        
+    }
 
-function is_user_entered_digits($results){
-    
-}
+    public function is_call_identified() {
+        
+    }
 
-function throw_error_messege($err_file_name,$next_step){
-    
-}
+    public function is_user_entered_digits($results) {
+        
+    }
 
-function get_product_by_id($product_id){
-    
-}
+    public function throw_error_messege($err_file_name, $next_step) {
+        
+    }
 
-function is_product_id_valid($product_id){
-    
-}
+    public function get_product_by_id($product_id) {
+        
+    }
 
-function read_product_details(product $product,$next){
-    
-}
+    public function is_product_id_valid($product_id) {
+        
+    }
 
-function validit_quntity($qty,$next){
-    
-}
+    public function read_product_details(product $product, $next) {
+        
+    }
 
-function read_total_order(){
-    
-}
+    public function validit_quntity($qty, $next) {
+        
+    }
 
-function read_and_ask($state,$nextOK,$nextErr){
-    
-}
+    public function read_total_order() {
+        
+    }
 
+    public function read_and_ask($state, $nextOK, $nextErr) {
+        
+    }
+
+}

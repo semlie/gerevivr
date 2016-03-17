@@ -11,10 +11,10 @@
  *
  * @author Admin
  */
-require_once __DIR__ . '/data_service.php';
-require_once __DIR__ . '/../models/caller_item.php';
-require_once __DIR__ . '/../models/sql_model.php';
-require_once __DIR__ . '/../config.php';
+require_once  realpath(dirname(__FILE__)) . '/data_service.php';
+require_once  realpath(dirname(__FILE__)) . '/../models/caller_item.php';
+require_once  realpath(dirname(__FILE__)) . '/../models/sql_model.php';
+require_once  realpath(dirname(__FILE__)) . '/../config.php';
 
 class orderItem_dataService extends DataService implements sqlModel {
 

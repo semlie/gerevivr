@@ -6,12 +6,12 @@
  * and open the template in the editor.
  */
 
-require_once __DIR__.'/models/order_item.php';
-require_once __DIR__."/models/contects.php";
-require_once __DIR__."/models/product.php";
-require_once __DIR__. '/services/orderItem_dataService.php';
-require_once __DIR__. '/services/order_dataService.php';
-require_once __DIR__. '/services/product_dataService.php';
+require_once  realpath(dirname(__FILE__)).'/models/order_item.php';
+require_once  realpath(dirname(__FILE__))."/models/contects.php";
+require_once  realpath(dirname(__FILE__))."/models/product.php";
+require_once  realpath(dirname(__FILE__)). '/services/orderItem_dataService.php';
+require_once  realpath(dirname(__FILE__)). '/services/order_dataService.php';
+require_once  realpath(dirname(__FILE__)). '/services/product_dataService.php';
 $conttext = new contects("ivr_orders","root","","localhost");
 
 $a = new \order_item($conttext);

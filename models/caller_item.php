@@ -11,21 +11,10 @@
  *
  * @author Admin
  */
-class caller_item extends ModelInfo{
+class caller_item extends ModelInfo {
+
     //put your code here
-    
-    public  $CallId;
 
-    function __construct() {
-    
-    }
-
-    public function GetInsertString() {
-        
-    }
-
-    public function GetUpdateString() {
-        
-    }
+    public $CallId;
 
 }
