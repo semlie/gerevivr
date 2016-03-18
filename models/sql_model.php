@@ -15,5 +15,4 @@ interface sqlModel {
     //put your code here
     public function GetInsertString($object);
     public function GetUpdateString($object);
-    public function mapToModel($row);
 }

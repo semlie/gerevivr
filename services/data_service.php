@@ -7,7 +7,7 @@ abstract class DataService {
     //put your code here
     public $contects, $tableName;
 
-    abstract public function mapToModel($row);
+     public abstract function mapToModel($row);
 
     function __construct(contects $contects, $tableName) {
         $this->contects = $contects;
