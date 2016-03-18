@@ -11,6 +11,8 @@
  *
  * @author Admin
  */
+require_once  realpath(dirname(__FILE__)).'/ModelInfo.php';
+
 class order_item extends ModelInfo{
 
     //put your code here
