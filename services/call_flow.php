@@ -26,6 +26,8 @@ class callFlow_manager {
 
     public function is_call_identified($cid) {
         if (!empty($cid)) {
+           $this->agi->conlog("call from {$cid['name']}");
+
             $this->agi->text2wav('The value must be a constant expression, not for example a variable, a property, or a function call.');
         } else {
             return FALSE;
