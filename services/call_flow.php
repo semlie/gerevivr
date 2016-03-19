@@ -1,6 +1,6 @@
 <?php
 
-require '../models/product.php';
+require realpath(dirname(__FILE__)) .'/../models/product.php';
 /*
  *
  * 
