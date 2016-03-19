@@ -1,6 +1,6 @@
 <?php
 
-require './services/call_flow.php';
+require realpath(dirname(__FILE__)) .'/services/call_flow.php';
 
 require('../phpagi.php');
 
