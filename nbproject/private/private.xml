@@ -6,11 +6,15 @@
             <file>file:/I:/www/newIVR/services/call_flow.php</file>
             <file>file:/I:/www/newIVR/models/caller_item.php</file>
             <file>file:/I:/www/newIVR/services/data_service.php</file>
-            <file>file:/I:/www/newIVR/test%20DB.php</file>
             <file>file:/I:/www/newIVR/models/order.php</file>
-            <file>file:/I:/www/newIVR/models/caller.php</file>
             <file>file:/I:/www/newIVR/models/sql_model.php</file>
             <file>file:/I:/www/newIVR/index.php</file>
+            <file>file:/I:/www/newIVR/services/product_dataService.php</file>
+            <file>file:/I:/www/newIVR/services/product_manager.php</file>
+            <file>file:/I:/www/newIVR/test_product_manager.php</file>
+            <file>file:/I:/www/newIVR/services/iproduct_manager.php</file>
+            <file>file:/I:/www/newIVR/models/ModelInfo.php</file>
+            <file>file:/I:/www/newIVR/models/caller.php</file>
             <file>file:/I:/www/newIVR/models/contects.php</file>
             <file>file:/I:/www/newIVR/models/product.php</file>
             <file>file:/I:/www/newIVR/models/order_item.php</file>

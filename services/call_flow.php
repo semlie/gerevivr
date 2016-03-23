@@ -1,6 +1,7 @@
 <?php
 
 require realpath(dirname(__FILE__)) .'/../models/product.php';
+require realpath(dirname(__FILE__)) .'/product_manager.php';
 /*
  *
  * 
@@ -11,12 +12,14 @@ class callFlow_manager {
     const MAX_DIGIT = 8;
     CONST TIME_OUT = 15000;
     CONST MAX_CYCLES = 4;
+    CONST FAILES_BASE_PATH = 'gerevsounds';
 
-    public $agi;
+    public $agi,$productManager;
 
     function __construct($agi) {
         $this->agi = $agi;
-    }
+        $this->productManager = new product_manager();
+        }
 
     public function init_call_flow() {
         $this->agi->answer();
@@ -43,14 +46,21 @@ class callFlow_manager {
     }
 
     public function get_product_by_id($product_id) {
+        $product = $this->productManager->getProbuctById($product_id);
         
     }
 
     public function is_product_id_valid($product_id) {
-        
+        return !empty($product_id);
     }
 
-    public function read_product_details(product $product, $next) {
+    public function read_product_details($product, $next) {
+        
+        if (is_array($product)) {
+            foreach ($product as $row) {
+                $this->sayFile($row);
+            }
+        }   
         
     }
 
@@ -66,6 +76,11 @@ class callFlow_manager {
         
     }
 
+    private function sayFile($filename) {
+        if (!empty($filename)) {
+            
+        }
+    }
     private function getData($playFile, $onErr, $maxDigit = self::MAX_DIGIT) {
         $cycle = 0;
 

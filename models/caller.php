@@ -13,14 +13,6 @@
  */
 class caller extends ModelInfo{
     
-    
-    public function GetInsertString() {
-        
-    }
-
-    public function GetUpdateString() {
-        
-    }
-
+    public $Name,$Address, $City,$PhoneNumber,$OtherPhone,$Notes;
 //put your code here
 }

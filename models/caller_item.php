@@ -15,6 +15,6 @@ class caller_item extends ModelInfo {
 
     //put your code here
 
-    public $CallId;
+    public $CallerId , $Uid;
 
 }

@@ -24,10 +24,10 @@ class product_dataService extends DataService implements sqlModel {
         parent::__construct(Config::getConttext(), "products");
     }
 
-    public function Add(product $callerItem) {
+    public function Add(product $product) {
 
-        $result = parent::Add($callerItem);
-        $callerItem->Id = $result;
+        $result = parent::Add($product);
+        $product->Id = $result;
     }
 
     public function mapToModel($row) {

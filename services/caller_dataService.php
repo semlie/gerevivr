@@ -12,49 +12,53 @@
  * @author Admin
  */
 require_once  realpath(dirname(__FILE__)) . '/data_service.php';
-require_once  realpath(dirname(__FILE__)) . '/../models/caller_item.php';
+require_once  realpath(dirname(__FILE__)) . '/../models/caller.php';
 require_once  realpath(dirname(__FILE__)) . '/../models/sql_model.php';
 require_once  realpath(dirname(__FILE__)) . '/../config.php';
 
 class orderItem_dataService extends DataService implements sqlModel {
 
-//    public function GetAll() {
-//        $result = parent::GetAll();
-//        $modelResult = array();
-//         while ($row = mysqli_fetch_assoc($result)) {
-//            // var_dump($row);
-//            $modelResult[] = $this->mapToModel($row);
-//        }
-//        return $modelResult;
-//    }
-
+    
     public function __construct() {
-        parent::__construct(Config::getConttext(), "OrderItems");
+        parent::__construct(Config::getConttext(), "caller");
     }
 
-    public function Add(caller_item $callerItem) {
+    public function Add(caller $caller) {
 
-        $result = parent::Add($callerItem);
-        $callerItem->Id = $result;
+        $result = parent::Add($caller);
+        $caller->Id = $result;
     }
 
     public function mapToModel($row) {
-        $result = new caller_item;
+        $result = new caller;
         $result->Id = $row['Id'];
-        $result->CallId = $row['CallId'];
+        $result->Name = $row['Name'];
+        $result->Address = $row['Address'];
+        $result->City = $row['City'];
+        $result->PhoneNumber = $row['PhoneNumber'];
+        $result->OtherPhone = $row['OtherPhone'];
+        $result->Notes = $row['Notes'];
         $result->TimeStamp = $row['TimeStamp'];
 
         return $result;
     }
 
-    public function GetInsertString($callerItem) {
-        $sql = "insert into `OrderItems` (`Id`, `OrderId`, `ProductId`, `CollerId`, `Quantity`, `TimeStamp`) "
-                . "VALUES (NULL, '" . $callerItem->OrderId . "', '" . $callerItem->ProductId . "', '" . $callerItem->CollerId . "', '" . $callerItem->Quantity . "', CURRENT_TIMESTAMP);  ";
-        return $sql;
+    public function GetInsertString($caller) {
+        $sql = "INSERT INTO `ivr_orders`.`caller` (`Id`,`Name`, `Address`, `City`, `PhoneNumber`, `OtherPhone`, `Notes`,`TimeStamp`) "
+        ."VALUES ('','".$caller->Name."', '".$caller->Address."', '".$caller->City."', '".$caller->PhoneNumber."', '".$caller->OtherPhone."', '".$caller->Notes."',CURRENT_TIMESTAMP);";
+
+              return $sql;
     }
 
-    public function GetUpdateString($callerItem) {
-        $sql = "update `OrderItems` set `OrderId` = '" . $callerItem->OrderId . "', `ProductId`='" . $callerItem->ProductId . "', `CollerId` = '" . $callerItem->CollerId . "', `Quantity` ='" . $callerItem->Quantity . "' WHERE `Id` = '" . $callerItem->Id . "'";
+    public function GetUpdateString($caller) {
+        $sql ="UPDATE `ivr_orders`.`caller` SET "
+                . "`Name`='" . $caller->Name . "', "
+                . "`Address`='" . $caller->Address . "', "
+                . "`City`='" . $caller->City . "', "
+                . "`PhoneNumber`='" . $caller->PhoneNumber . "', "
+                . "`OtherPhone`='" . $caller->OtherPhone . "', "
+                . "`Notes`='" . $caller->Notes . "' "
+                . "WHERE `Id`='" . $caller->Id . "';";
         return $sql;
     }
 

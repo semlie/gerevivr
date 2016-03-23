@@ -29,7 +29,7 @@ class orderItem_dataService extends DataService implements sqlModel {
 //    }
 
     public function __construct() {
-        parent::__construct(Config::getConttext(), "OrderItems");
+        parent::__construct(Config::getConttext(), "caller_item");
     }
 
     public function Add(caller_item $callerItem) {
@@ -41,20 +41,25 @@ class orderItem_dataService extends DataService implements sqlModel {
     public function mapToModel($row) {
         $result = new caller_item;
         $result->Id = $row['Id'];
-        $result->CallId = $row['CallId'];
+        $result->CallerId = $row['CallerId'];
+        $result->Uid = $row['Uid'];
         $result->TimeStamp = $row['TimeStamp'];
 
         return $result;
     }
 
     public function GetInsertString($callerItem) {
-        $sql = "insert into `OrderItems` (`Id`, `OrderId`, `ProductId`, `CollerId`, `Quantity`, `TimeStamp`) "
-                . "VALUES (NULL, '" . $callerItem->OrderId . "', '" . $callerItem->ProductId . "', '" . $callerItem->CollerId . "', '" . $callerItem->Quantity . "', CURRENT_TIMESTAMP);  ";
-        return $sql;
+        $sql = "INSERT INTO `ivr_orders`.`caller_item` (`Id`,`CallerId`, `Uid`,`TimeStamp`) "
+                . "VALUES ('','" . $callerItem->CallerId . "', '" . $callerItem->Uid . "',CURRENT_TIMESTAMP);";
+ return $sql;
     }
 
     public function GetUpdateString($callerItem) {
-        $sql = "update `OrderItems` set `OrderId` = '" . $callerItem->OrderId . "', `ProductId`='" . $callerItem->ProductId . "', `CollerId` = '" . $callerItem->CollerId . "', `Quantity` ='" . $callerItem->Quantity . "' WHERE `Id` = '" . $callerItem->Id . "'";
+        $sql = "UPDATE `ivr_orders`.`caller_item` SET "
+                . "`CallerId`='" . $callerItem->CallerId . "',"
+                . " `Uid`='" . $callerItem->Uid . "' "
+                . "WHERE `Id`='" . $callerItem->Id . "';";
+        
         return $sql;
     }
 
