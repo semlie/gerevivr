@@ -16,7 +16,7 @@ require_once  realpath(dirname(__FILE__)) . '/../models/caller.php';
 require_once  realpath(dirname(__FILE__)) . '/../models/sql_model.php';
 require_once  realpath(dirname(__FILE__)) . '/../config.php';
 
-class orderItem_dataService extends DataService implements sqlModel {
+class caller_dataService extends DataService implements sqlModel {
 
     
     public function __construct() {
@@ -61,5 +61,13 @@ class orderItem_dataService extends DataService implements sqlModel {
                 . "WHERE `Id`='" . $caller->Id . "';";
         return $sql;
     }
+    public function GetCallerByPhoneNumber($phoneNumber) {
+        
+        $sql = " SELECT * FROM `ivr_orders`.`caller` WHERE `caller`.`PhoneNumber` = '".$phoneNumber."'";
 
+        $result = $this->selectQuery($sql);
+        $row = mysqli_fetch_assoc($result);
+        $modelResult = !empty($row)? $this->mapToModel($row):'';
+        return $modelResult;
+    }
 }

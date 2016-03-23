@@ -7,16 +7,12 @@
  */
 
 /**
- * Description of caller_item
  *
  * @author Admin
  */
-require_once  realpath(dirname(__FILE__)).'/ModelInfo.php';
-
-class caller_item extends ModelInfo {
-
+interface ICaller_manager {
     //put your code here
-
-    public $CallerId , $Uid;
-
+    
+    public function GetCallerIdByNumber($number);
+    
 }

@@ -14,7 +14,7 @@ require_once  realpath(dirname(__FILE__)). '/services/order_dataService.php';
 require_once  realpath(dirname(__FILE__)). '/services/product_dataService.php';
 $conttext = new contects("ivr_orders","root","","localhost");
 
-$a = new \order_item($conttext);
+$a = new order_item();
 
 $a->OrderId="14";
 $a->ProductId="14";

@@ -57,7 +57,7 @@ class product_dataService extends DataService implements sqlModel {
 
         $result = $this->selectQuery($sql);
         $row = mysqli_fetch_assoc($result);
-        $modelResult = $this->mapToModel($row);
+        $modelResult = !empty($row)? $this->mapToModel($row):'';
         return $modelResult;
         
     }

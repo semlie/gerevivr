@@ -16,17 +16,9 @@ require_once  realpath(dirname(__FILE__)) . '/../models/caller_item.php';
 require_once  realpath(dirname(__FILE__)) . '/../models/sql_model.php';
 require_once  realpath(dirname(__FILE__)) . '/../config.php';
 
-class orderItem_dataService extends DataService implements sqlModel {
+class callerItem_dataService extends DataService implements sqlModel {
 
-//    public function GetAll() {
-//        $result = parent::GetAll();
-//        $modelResult = array();
-//         while ($row = mysqli_fetch_assoc($result)) {
-//            // var_dump($row);
-//            $modelResult[] = $this->mapToModel($row);
-//        }
-//        return $modelResult;
-//    }
+
 
     public function __construct() {
         parent::__construct(Config::getConttext(), "caller_item");

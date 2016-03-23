@@ -11,6 +11,8 @@
  *
  * @author Admin
  */
+require_once  realpath(dirname(__FILE__)).'/ModelInfo.php';
+
 class caller extends ModelInfo{
     
     public $Name,$Address, $City,$PhoneNumber,$OtherPhone,$Notes;
