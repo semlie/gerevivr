@@ -14,5 +14,6 @@ interface ICaller_manager {
     //put your code here
     
     public function GetCallerIdByNumber($number);
+    public function GetCallerItem($number);
     
 }

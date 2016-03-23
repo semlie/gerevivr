@@ -1,11 +1,8 @@
 <?php
 
-require realpath(dirname(__FILE__)) .'/../models/product.php';
-require realpath(dirname(__FILE__)) .'/product_manager.php';
-/*
- *
- * 
- */
+require realpath(dirname(__FILE__)) . '/../models/product.php';
+require realpath(dirname(__FILE__)) . '/product_manager.php';
+require realpath(dirname(__FILE__)) . '/caller_manager.php';
 
 class callFlow_manager {
 
@@ -14,12 +11,13 @@ class callFlow_manager {
     CONST MAX_CYCLES = 4;
     CONST FAILES_BASE_PATH = 'gerevsounds';
 
-    public $agi,$productManager;
+    public $agi, $productManager, $callerManager, $callerItem;
 
     function __construct($agi) {
         $this->agi = $agi;
         $this->productManager = new product_manager();
-        }
+        $this->callerManager = new caller_manager();
+    }
 
     public function init_call_flow() {
         $this->agi->answer();
@@ -29,8 +27,9 @@ class callFlow_manager {
 
     public function is_call_identified($cid) {
         if (!empty($cid)) {
-           $this->agi->conlog("call from {$cid['name']}");
-
+            $this->agi->conlog("call from {$cid['name']}");
+            $this->callerItem = $this->callerManager->GetCallerItem($cid['name']);
+            
             $this->agi->say_number(123456);
         } else {
             return FALSE;
@@ -47,7 +46,6 @@ class callFlow_manager {
 
     public function get_product_by_id($product_id) {
         $product = $this->productManager->getProbuctById($product_id);
-        
     }
 
     public function is_product_id_valid($product_id) {
@@ -55,13 +53,12 @@ class callFlow_manager {
     }
 
     public function read_product_details($product, $next) {
-        
+
         if (is_array($product)) {
             foreach ($product as $row) {
                 $this->sayFile($row);
             }
-        }   
-        
+        }
     }
 
     public function validit_quntity($qty, $next) {
@@ -81,6 +78,7 @@ class callFlow_manager {
             
         }
     }
+
     private function getData($playFile, $onErr, $maxDigit = self::MAX_DIGIT) {
         $cycle = 0;
 
@@ -94,7 +92,7 @@ class callFlow_manager {
             if (function_exists($onErr)) {
                 $onErr();
             } else {
-            return FALSE;    
+                return FALSE;
             }
         } else {
             return $result['result'];

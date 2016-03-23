@@ -14,7 +14,16 @@ class caller_manager implements ICaller_manager {
         $this->callerDataService = new caller_dataService();
         $this->callerItemDataService = new calleritem_dataService();
     }
-
+    public function GetCallerItem($number) {
+        $caller = $this->GetCallerIdByNumber($number);
+        $callerItem = new caller_item();
+        $callerItem->Uid = uniqid();
+        $callerItem->CallerId = $caller->Id;
+        $this->callerItemDataService->Add($callerItem);
+        return $callerItem;
+        
+    }
+    
     public function GetCallerIdByNumber($number) {
         $result = $this->callerDataService->GetCallerByPhoneNumber($number);
 
@@ -36,5 +45,7 @@ class caller_manager implements ICaller_manager {
         $this->callerDataService->Add($caller);
         return $caller->Id;
     }
+
+
 
 }
