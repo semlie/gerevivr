@@ -28,8 +28,8 @@ class order_dataService  extends DataService implements sqlModel{
     }
     
     public function GetInsertString($order) {
-        $sql = "INSERT INTO `orders` (`Id`, `CallerItemId`, `TimeStamp`, `Is_Delivered`, `Is_Paid`, `TotalQuantity`, `TotalPrice`) VALUES "
-                . "(NULL, '".$order->CallerItemId."', CURRENT_TIMESTAMP, '".$order->Is_Delivered."', '".$order->Is_Paid."', '".$order->TotalQuantity."', '".$order->TotalPrice."');";
+        $sql = "INSERT INTO `orders` (`Id`, `CallerItemId`, `TimeStamp`, `Is_Delivered`, `Is_Paid`, `TotalQuantity`, `TotalPrice`,`TotalItems`,) VALUES "
+                . "(NULL, '".$order->CallerItemId."', CURRENT_TIMESTAMP, '".$order->Is_Delivered."', '".$order->Is_Paid."', '".$order->TotalQuantity."', '".$order->TotalPrice."', '".$order->TotalPrice."', '".$order->TotalItems."');";
         return $sql;
     }
 
@@ -39,6 +39,7 @@ class order_dataService  extends DataService implements sqlModel{
                 . "`Is_Delivered`='".$order->Is_Delivered."',"
                 . "`Is_Paid`='".$order->Is_Paid."',"
                 . "`TotalQuantity`='".$order->TotalQuantity."',"
+                . "`TotalItems`='".$order->TotalItems."',"
                 . "`TotalPrice`='".$order->TotalPrice."' "
                 . "WHERE `Id` = '".$order->Id."'";
         return $sql;
@@ -53,6 +54,7 @@ class order_dataService  extends DataService implements sqlModel{
         $model->Is_Paid = $row['Is_Paid'];
         $model->TotalPrice = $row['TotalPrice'];
         $model->TotalQuantity = $row['TotalQuantity'];
+        $model->TotalItems = $row['TotalItems'];
         
         return $model;
     }

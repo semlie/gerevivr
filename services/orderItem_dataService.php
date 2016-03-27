@@ -50,5 +50,13 @@ class orderItem_dataService extends DataService implements sqlModel {
         $sql = "update `OrderItems` set `OrderId` = '" . $orderItem->OrderId . "', `ProductId`='" . $orderItem->ProductId . "', `CollerId` = '" . $orderItem->CollerId . "', `Quantity` ='" . $orderItem->Quantity . "' WHERE `Id` = '" . $orderItem->Id . "'";
         return $sql;
     }
+    
+    public function GetAllItemsOfOrder($orderId){
+        $sql = " SELECT * FROM `ivr_orders`.`OrderItems` WHERE `OrderItems`.`OrderId` = '".$orderId."'";
 
+        $result = $this->selectQuery($sql);
+        $row = mysqli_fetch_assoc($result);
+        $modelResult = !empty($row)? $this->mapToModel($row):'';
+        return $modelResult;
+    }
 }
