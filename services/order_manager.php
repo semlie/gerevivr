@@ -14,7 +14,7 @@ class order_manager implements IOrderManager {
     function __construct() {
         $this->orderDataService = new order_dataService();
         $this->orderItemDataService = new orderItem_dataService();
-        $this->orderItemDataService = new product_manager();
+        $this->productManager = new product_manager();
     }
 
     public function AddNewItemForOrder($callerId, $orderId, $producrId, $quantity) {

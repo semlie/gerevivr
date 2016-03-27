@@ -13,7 +13,15 @@ class product_manager implements iproduct_manager {
     }
 
     public function getProbuctById($productId) {
-        $result = $this->productDataService->GetProductByCatalogNumber($productId);
+        $result = $this->productDataService->getById($productId);
+        if (!empty($result)) {
+            return $result;
+        }
+        return '';
+    }
+    
+        public function GetProductByCatalogNumber($catalogNumber) {
+        $result = $this->productDataService->GetProductByCatalogNumber($catalogNumber);
         if (!empty($result)) {
             $resultArray = $this->mapProductToArray($result);
             return $resultArray;

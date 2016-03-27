@@ -28,8 +28,8 @@ class order_dataService  extends DataService implements sqlModel{
     }
     
     public function GetInsertString($order) {
-        $sql = "INSERT INTO `orders` (`Id`, `CallerItemId`, `TimeStamp`, `Is_Delivered`, `Is_Paid`, `TotalQuantity`, `TotalPrice`,`TotalItems`,) VALUES "
-                . "(NULL, '".$order->CallerItemId."', CURRENT_TIMESTAMP, '".$order->Is_Delivered."', '".$order->Is_Paid."', '".$order->TotalQuantity."', '".$order->TotalPrice."', '".$order->TotalPrice."', '".$order->TotalItems."');";
+        $sql = "INSERT INTO `orders` (`Id`, `CallerItemId`, `TimeStamp`, `Is_Delivered`, `Is_Paid`, `TotalQuantity`, `TotalPrice`,`TotalItems`) VALUES "
+                . "(NULL, '".$order->CallerItemId."', CURRENT_TIMESTAMP, '".$order->Is_Delivered."', '".$order->Is_Paid."', '".$order->TotalQuantity."', '".$order->TotalPrice."', '".$order->TotalItems."');";
         return $sql;
     }
 

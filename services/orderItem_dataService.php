@@ -55,8 +55,12 @@ class orderItem_dataService extends DataService implements sqlModel {
         $sql = " SELECT * FROM `ivr_orders`.`OrderItems` WHERE `OrderItems`.`OrderId` = '".$orderId."'";
 
         $result = $this->selectQuery($sql);
-        $row = mysqli_fetch_assoc($result);
-        $modelResult = !empty($row)? $this->mapToModel($row):'';
+        $modelResult = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            // var_dump($row);
+            $modelResult[] = $this->mapToModel($row);
+        }
         return $modelResult;
+
     }
 }
