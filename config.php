@@ -1,6 +1,7 @@
 <?php
 
-require_once './models/contects.php';
+require_once  realpath(dirname(__FILE__))."/models/contects.php";
+
 
 class Config {
 
