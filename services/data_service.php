@@ -1,13 +1,13 @@
 <?php
 
-require_once  realpath(dirname(__FILE__)) . '/../models/ModelInfo.php';
+require_once realpath(dirname(__FILE__)) . '/../models/ModelInfo.php';
 
 abstract class DataService {
 
     //put your code here
     public $contects, $tableName;
 
-     public abstract function mapToModel($row);
+    public abstract function mapToModel($row);
 
     function __construct(contects $contects, $tableName) {
         $this->contects = $contects;
@@ -28,8 +28,8 @@ abstract class DataService {
     public function getById($id) {
         $sql = 'select * from %1$s where `%1$s`.`Id` = %2$s';
         $result = $this->selectQuery(sprintf($sql, $this->tableName, $id));
-        $row =($result!=FALSE)? mysqli_fetch_assoc($result):'';
-        $modelResult = ($row>0)?$this->mapToModel($row):'';
+        $row = ($result != FALSE) ? mysqli_fetch_assoc($result) : '';
+        $modelResult = ($row > 0) ? $this->mapToModel($row) : '';
         return $modelResult;
     }
 
@@ -50,11 +50,12 @@ abstract class DataService {
     private function Query($sql, $isInsert = 0) {
         $conn = mysqli_connect($this->contects->dbhost, $this->contects->dbuser, $this->contects->dbpass, $this->contects->db);
         // Check connection
+        var_dump($sql);
+
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
         if ($isInsert != 0) {
-            var_dump($sql);
             mysqli_query($conn, $sql);
             return $conn->insert_id;
         }
@@ -69,7 +70,7 @@ abstract class DataService {
 
         $result = $this->Query($sql);
         // var_dump($result);
-        if ($result!= FALSE && mysqli_num_rows($result) > 0) {
+        if ($result != FALSE && mysqli_num_rows($result) > 0) {
             // output data of each row
             return $result;
         } else {
