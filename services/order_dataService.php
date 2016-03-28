@@ -23,7 +23,6 @@ class order_dataService  extends DataService implements sqlModel{
     }
 
     public function Add(order $order) {
-        echo 'add';
         $result = parent::Add($order);
         $order->Id = $result;
     }

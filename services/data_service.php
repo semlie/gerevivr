@@ -18,7 +18,7 @@ abstract class DataService {
         $sql = 'select * from %1$s';
         $result = $this->selectQuery(sprintf($sql, $this->tableName));
         $modelResult = array();
-        if ($result!= FALSE) {
+        if ($result != FALSE) {
             while ($row = mysqli_fetch_assoc($result)) {
                 // var_dump($row);
                 $modelResult[] = $this->mapToModel($row);
@@ -36,13 +36,8 @@ abstract class DataService {
     }
 
     protected function Add(ModelInfo $object) {
-            echo 'ADD';
-            $sql = $this->GetInsertString($object);
-            var_dump($sql);
-            echo 'End ADD';
-            
-            return $this->InsertionQuery($sql, TRUE);
-        
+        $sql = $this->GetInsertString($object);
+        return $this->InsertionQuery($sql, TRUE);
     }
 
     public function Update(ModelInfo $object) {
@@ -55,8 +50,6 @@ abstract class DataService {
     private function Query($sql, $isInsert = 0) {
         $conn = mysqli_connect($this->contects->dbhost, $this->contects->dbuser, $this->contects->dbpass, $this->contects->db);
         // Check connection
-        var_dump($sql);
-
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
