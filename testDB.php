@@ -62,3 +62,8 @@ $aas = new product_dataService();
 
 $aa = $aas->GetProductByCatalogNumber("10101");
 var_dump($aa);
+$sql = "INSERT INTO `ivr_orders`.`caller` (`Id`,`Name`, `Address`, `City`, `PhoneNumber`, `OtherPhone`, `Notes`,`TimeStamp`) VALUES ('','Shmulik', 'Hertzog', 'beni brak', '0544430915', '0544430915', 'no note',CURRENT_TIMESTAMP);";
+$conn = mysqli_connect("localhost", "ivrorder", "tMxqEveNDh9VSLfh", "ivr_orders");
+
+mysqli_query($conn, $sql);
+echo  " ::: ".$conn->insert_id;
