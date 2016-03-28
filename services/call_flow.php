@@ -12,7 +12,7 @@ class callFlow_manager {
     CONST MAX_CYCLES = 4;
     CONST FAILES_BASE_PATH = 'gerevsounds';
 
-    public $agi, $productManager, $callerManager, $callerItem ,$orderId,$orderManager;
+    public $agi, $productManager, $callerManager, $callerItem, $orderId, $orderManager;
 
     function __construct($agi) {
         $this->agi = $agi;
@@ -28,14 +28,11 @@ class callFlow_manager {
     }
 
     public function is_call_identified($cid) {
-        $this->agi->verbose("call from --------------- ");
+        $this->agi->verbose("call from ----------{$cid} ");
 
         if (!empty($cid)) {
-            
-            $this->agi->conlog("call from --------------- ");
+
             $this->callerItem = $this->callerManager->GetCallerItem($cid['name']);
-            
-            
             $this->agi->say_number(123456);
         } else {
             return FALSE;
@@ -52,7 +49,7 @@ class callFlow_manager {
 
     public function get_product_by_id($product_id) {
         $product = $this->productManager->getProbuctById($product_id);
-        if (!empty( $product)) {
+        if (!empty($product)) {
             
         }
     }
