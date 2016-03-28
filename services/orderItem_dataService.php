@@ -19,7 +19,7 @@ require_once  realpath(dirname(__FILE__)) . '/../config.php';
 class orderItem_dataService extends DataService implements sqlModel {
 
     public function __construct() {
-        parent::__construct(Config::getConttext(), "OrderItems");
+        parent::__construct(Config::getConttext(), "orderitems");
     }
 
     public function Add(order_item $orderItem) {

@@ -18,9 +18,11 @@ abstract class DataService {
         $sql = 'select * from %1$s';
         $result = $this->selectQuery(sprintf($sql, $this->tableName));
         $modelResult = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            // var_dump($row);
-            $modelResult[] = $this->mapToModel($row);
+        if ($result!= FALSE) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // var_dump($row);
+                $modelResult[] = $this->mapToModel($row);
+            }
         }
         return $modelResult;
     }
