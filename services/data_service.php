@@ -28,8 +28,8 @@ abstract class DataService {
     public function getById($id) {
         $sql = 'select * from %1$s where `%1$s`.`Id` = %2$s';
         $result = $this->selectQuery(sprintf($sql, $this->tableName, $id));
-        $row = mysqli_fetch_assoc($result);
-        $modelResult = $this->mapToModel($row);
+        $row =($result!=FALSE)? mysqli_fetch_assoc($result):'';
+        $modelResult = ($row>0)?$this->mapToModel($row):'';
         return $modelResult;
     }
 
@@ -68,7 +68,7 @@ abstract class DataService {
 
         $result = $this->Query($sql);
         // var_dump($result);
-        if (mysqli_num_rows($result) > 0) {
+        if ($result!= FALSE && mysqli_num_rows($result) > 0) {
             // output data of each row
             return $result;
         } else {
