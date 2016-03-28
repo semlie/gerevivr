@@ -46,6 +46,8 @@ $e->TotalPrice = 12;
 $e->TotalQuantity = 2;
 $f->Add($e);
 
+
+var_dump($e);
 $g = $f->GetAll();
 var_dump($g);
 
