@@ -28,6 +28,7 @@ class callFlow_manager {
     }
 
     public function is_call_identified($cid) {
+        var_dump($cid);
         $id = implode("|",$cid);
         $this->agi->verbose("call from ----------{$id} ");
 
