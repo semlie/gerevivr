@@ -38,6 +38,10 @@ abstract class DataService {
     protected function Add(ModelInfo $object) {
         if (is_subclass_of($this, 'sqlModel')) {
             $sql = $this->GetInsertString($object);
+            echo 'ADD';
+            var_dump($sql);
+            echo 'End ADD';
+            
             return $this->InsertionQuery($sql, TRUE);
         }
     }
