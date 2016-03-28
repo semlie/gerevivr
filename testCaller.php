@@ -18,6 +18,8 @@ $caller->PhoneNumber= "0544430915";
 $caller->OtherPhone= "0544430915";
 $caller->Notes= "no note";
 
+var_dump($caller);
+
 $a = $callerDs->Add($caller);
 $b = $callerDs->getById($caller->Id);
 var_dump($b);
