@@ -12,7 +12,7 @@ class Config {
     }
 
     public static function init() {
-        self::$conttext = new contects("ivr_orders", "root", "", "localhost");
+        self::$conttext = new contects("ivr_orders", "ivrorder", "tMxqEveNDh9VSLfh", "localhost");
     }
 
     public static function getConttext() {
