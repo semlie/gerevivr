@@ -49,7 +49,7 @@ $f->Add($e);
 
 var_dump($e);
 $g = $f->GetAll();
-var_dump($g);
+//var_dump($g);
 
 $e->TotalPrice = rand(1,100);
 $f->Update($e);
