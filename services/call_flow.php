@@ -33,6 +33,8 @@ class callFlow_manager {
         $this->agi->verbose("call from ----------{$id} ");
         $id = implode("|",$cid);
         $this->agi->verbose("call from ----------{$id} ");
+        
+        $this->agi->verbose("call from ----------{$cid['username']} ");
 
         if (!empty($cid)) {
 
