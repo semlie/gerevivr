@@ -3,6 +3,7 @@
 require realpath(dirname(__FILE__)) . '/../models/product.php';
 require realpath(dirname(__FILE__)) . '/product_manager.php';
 require realpath(dirname(__FILE__)) . '/caller_manager.php';
+require realpath(dirname(__FILE__)) . '/order_manager.php';
 
 class callFlow_manager {
 
