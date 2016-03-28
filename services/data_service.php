@@ -54,6 +54,7 @@ abstract class DataService {
             die("Connection failed: " . mysqli_connect_error());
         }
         if ($isInsert != 0) {
+            var_dump($sql);
             mysqli_query($conn, $sql);
             return $conn->insert_id;
         }
