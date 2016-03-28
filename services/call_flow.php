@@ -38,8 +38,8 @@ class callFlow_manager {
 
         if (!empty($cid)) {
 
-            $this->callerItem = $this->callerManager->GetCallerItem($cid['name']);
-            $this->agi->say_number(123456);
+            $this->callerItem = $this->callerManager->GetCallerItem($cid['username']);
+            $this->agi->say_number($cid['username']);
         } else {
             return FALSE;
         }
