@@ -22,24 +22,31 @@ class callFlow_manager {
     }
 
     public function init_call_flow() {
+        $arr = array("continue-or-finish","enter-product-code","enter-quantity","error-no-id","quantity-wanted","units");
+        
         $this->agi->answer();
         $cid = $this->agi->parse_callerid();
         $this->is_call_identified($cid);
+        
+        if ($this->is_call_identified($cid)) {
+            $this->read_product_details($arr);
+        } else {
+            $this->throw_error_messege("call from good cid", "next_step");
+        }
     }
 
     public function is_call_identified($cid) {
         var_dump($cid);
-        $id = implode("|",array_keys($cid));
+        $id = implode("|", array_keys($cid));
         $this->agi->verbose("call from ----------{$id} ");
-        $id = implode("|",$cid);
+        $id = implode("|", $cid);
         $this->agi->verbose("call from ----------{$id} ");
-        
-        $this->agi->verbose("call from ----------{$cid['username']} ");
 
-        if (!empty($cid)) {
+        if (!empty($cid['username'])) {
 
             $this->callerItem = $this->callerManager->GetCallerItem($cid['username']);
             $this->agi->say_digits($cid['username']);
+            return TRUE;
         } else {
             return FALSE;
         }
@@ -68,7 +75,7 @@ class callFlow_manager {
 
         if (is_array($product)) {
             foreach ($product as $row) {
-                $this->sayFile($row);
+                $this->sayFile("gerev/".$row);
             }
         }
     }
@@ -87,7 +94,7 @@ class callFlow_manager {
 
     private function sayFile($filename) {
         if (!empty($filename)) {
-            
+            $this->agi->stream_file($filename);
         }
     }
 
