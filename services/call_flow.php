@@ -28,15 +28,16 @@ class callFlow_manager {
         $cid = $this->agi->parse_callerid();
         
         if ($this->is_call_identified($cid)) {
-            $this->read_product_details($arr);
+            $this->read_product_details($arr,"");
         } else {
             $this->throw_error_messege("call from good cid", "next_step");
         }
     }
 
     public function is_call_identified($cid) {
-        var_dump($cid);
         $id = implode("|", array_keys($cid));
+        $this->agi->conlog("call from -----conlog-----{$id} ");
+    
         $this->agi->verbose("call from ----------{$id} ");
         $id = implode("|", $cid);
         $this->agi->verbose("call from ----------{$id} ");
