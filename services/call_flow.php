@@ -75,7 +75,7 @@ class callFlow_manager {
 
         if (is_array($product)) {
             foreach ($product as $row) {
-                $this->sayFile("".$row);
+                $this->sayFile("gerev/".$row);
             }
         }
     }
