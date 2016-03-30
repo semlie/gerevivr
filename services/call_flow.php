@@ -22,11 +22,10 @@ class callFlow_manager {
     }
 
     public function init_call_flow() {
-        $arr = array("continue-or-finish","enter-product-code","enter-quantity","error-no-id","quantity-wanted","units");
+        $arr = array("dir-intro-fnln","incoming-call-1-accept-2-decline","continue-or-finish","enter-product-code","enter-quantity","error-no-id","quantity-wanted","units");
         
         $this->agi->answer();
         $cid = $this->agi->parse_callerid();
-        $this->is_call_identified($cid);
         
         if ($this->is_call_identified($cid)) {
             $this->read_product_details($arr);
@@ -75,7 +74,7 @@ class callFlow_manager {
 
         if (is_array($product)) {
             foreach ($product as $row) {
-                $this->sayFile("gerev/".$row);
+                $this->sayFile("".$row);
             }
         }
     }
@@ -94,7 +93,7 @@ class callFlow_manager {
 
     private function sayFile($filename) {
         if (!empty($filename)) {
-            $this->agi->stream_file($filename);
+            $this->agi->stream_file($filename,"#");
         }
     }
 
