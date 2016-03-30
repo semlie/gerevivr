@@ -93,7 +93,7 @@ class callFlow_manager {
 
     private function sayFile($filename) {
         if (!empty($filename)) {
-            $this->agi->stream_file($filename,"#");
+            $this->agi->stream_file("/var/lib/asterisk/sounds/gerev/".$filename,"#");
         }
     }
 
