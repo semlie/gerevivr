@@ -56,8 +56,8 @@ class product_dataService extends DataService implements sqlModel {
         $sql = " SELECT * FROM `ivr_orders`.`products` WHERE `products`.`CatalogNumber` = '".$catalogNumber."'";
 
         $result = $this->selectQuery($sql);
-        $row = mysqli_fetch_assoc($result);
-        $modelResult = !empty($row)? $this->mapToModel($row):'';
+        $row = ($result != FALSE) ? mysqli_fetch_assoc($result) : '';
+        $modelResult = ($row > 0) ? $this->mapToModel($row) : '';
         return $modelResult;
         
     }

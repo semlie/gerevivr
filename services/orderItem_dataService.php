@@ -56,9 +56,11 @@ class orderItem_dataService extends DataService implements sqlModel {
 
         $result = $this->selectQuery($sql);
         $modelResult = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            // var_dump($row);
-            $modelResult[] = $this->mapToModel($row);
+         if ($result != FALSE) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // var_dump($row);
+                $modelResult[] = $this->mapToModel($row);
+            }
         }
         return $modelResult;
 

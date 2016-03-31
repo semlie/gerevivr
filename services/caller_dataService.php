@@ -66,8 +66,9 @@ class caller_dataService extends DataService implements sqlModel {
         $sql = " SELECT * FROM `ivr_orders`.`caller` WHERE `caller`.`PhoneNumber` = '".$phoneNumber."'";
 
         $result = $this->selectQuery($sql);
-        $row = mysqli_fetch_assoc($result);
-        $modelResult = !empty($row)? $this->mapToModel($row):'';
+        $row = ($result != FALSE) ? mysqli_fetch_assoc($result) : '';
+        $modelResult = ($row > 0) ? $this->mapToModel($row) : '';
+
         return $modelResult;
     }
 }

@@ -29,6 +29,7 @@ class callFlow_manager {
         
         if ($this->is_call_identified($cid)) {
             $this->read_product_details($arr,"");
+            $this->getData("continue-or-finish","",2);
         } else {
             $this->throw_error_messege("call from good cid", "next_step");
         }
@@ -36,12 +37,7 @@ class callFlow_manager {
 
     public function is_call_identified($cid) {
         $id = implode("|", array_keys($cid));
-        $this->agi->conlog("call from -----conlog-----{$id} ");
-    
-        $this->agi->verbose("call from ----------{$id} ");
-        $id = implode("|", $cid);
-        $this->agi->verbose("call from ----------{$id} ");
-
+        $this->agi->conlog("call from {$cid['username']} ");
         if (!empty($cid['username'])) {
 
             $this->callerItem = $this->callerManager->GetCallerItem($cid['username']);
@@ -63,7 +59,7 @@ class callFlow_manager {
     public function get_product_by_id($product_id) {
         $product = $this->productManager->getProbuctById($product_id);
         if (!empty($product)) {
-            
+            $this->read_product_details($product);
         }
     }
 
@@ -71,7 +67,7 @@ class callFlow_manager {
         return !empty($product_id);
     }
 
-    public function read_product_details($product, $next) {
+    public function read_product_details($product, $next='') {
 
         if (is_array($product)) {
             foreach ($product as $row) {
@@ -98,12 +94,13 @@ class callFlow_manager {
         }
     }
 
-    private function getData($playFile, $onErr, $maxDigit = self::MAX_DIGIT) {
+    private function getData($playFile, $onErr="", $maxDigit = self::MAX_DIGIT) {
         $cycle = 0;
 
         do {
             $cycle ++;
             $result = $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
+            var_dump($result);
             $this->agi->conlog("Failed to ping {$result['result']}");
         } while (!empty($result['result']) && $cycle < self::MAX_CYCLES);
 
