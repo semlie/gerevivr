@@ -22,17 +22,39 @@ class callFlow_manager {
     }
 
     public function init_call_flow() {
-        $arr = array("dir-intro-fnln","incoming-call-1-accept-2-decline","continue-or-finish","enter-product-code","enter-quantity","error-no-id","quantity-wanted","units");
-        
+        $arr = array( "continue-or-finish", "enter-product-code", "enter-quantity", "error-no-id", "quantity-wanted", "units");
+
         $this->agi->answer();
         $cid = $this->agi->parse_callerid();
-        
+
         if ($this->is_call_identified($cid)) {
-            $this->read_product_details($arr,"");
-            $this->getData("continue-or-finish","",2);
+            $this->read_product_details($arr, "");
+            $this->getNevigationKey("continue-or-finish", "19");
         } else {
             $this->throw_error_messege("call from good cid", "next_step");
         }
+    }
+
+    private function findProductStep($param) {
+        //enter product code
+        //search for product 
+        // if find go to getQuntityStep 
+        // else 
+        // say error and start agein 
+    }
+
+    private function getQuntityStep($param) {
+        //say the product 
+        // ask qunitity
+        // validate quantity
+        // create order and add orderItem 
+        // ask if go to step finish or start
+    }
+
+    private function finishStep($param) {
+        // close order and get total
+        // say total 
+        // hangup
     }
 
     public function is_call_identified($cid) {
@@ -67,16 +89,16 @@ class callFlow_manager {
         return !empty($product_id);
     }
 
-    public function read_product_details($product, $next='') {
+    public function read_product_details($product, $next = '') {
 
         if (is_array($product)) {
             foreach ($product as $row) {
-                $this->sayFile("gerev/".$row);
+                $this->sayFile("gerev/" . $row);
             }
         }
     }
 
-    public function validit_quntity($qty, $next) {
+    public function validate_quntity($qty, $next) {
         
     }
 
@@ -88,30 +110,46 @@ class callFlow_manager {
         
     }
 
-    private function sayFile($filename) {
+    private function sayFile($filename,$escape_digits="") {
         if (!empty($filename)) {
-            $this->agi->stream_file("/var/lib/asterisk/sounds/".$filename,"#");
+           return $this->agi->stream_file($filename, $escape_digits);
+        }
+        return '';
+    }
+
+    private function getNevigationKey($playFile, $keys) {
+        if (!empty($filename)) {
+            $result = $this->loopToGetUserData("sayFile",array($playFile,$keys));
+            return $result;
         }
     }
 
-    private function getData($playFile, $onErr="", $maxDigit = self::MAX_DIGIT) {
-        $cycle = 0;
+    private function getData($playFile, $onErr = "", $maxDigit = self::MAX_DIGIT) {
+           return $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
 
+    }
+
+    private function loopToGetUserData($function, $param) {
+        $cycle = 0;
         do {
             $cycle ++;
-            $result = $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
+            $result = call_user_func_array(array($this, $function), $param);
+//            $result = $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
             var_dump($result);
-            $this->agi->conlog("Failed to ping {$result['result']}");
-        } while (!empty($result['result']) && $cycle < self::MAX_CYCLES);
-
-        if (self::MAX_CYCLES - 1 == $cycle) {
-            if (function_exists($onErr)) {
-                $onErr();
-            } else {
-                return FALSE;
-            }
-        } else {
+            $this->agi->conlog("call {$function} with {$param}");
+        } while (returnData($result) && $cycle < self::MAX_CYCLES);
+        if ($result['result'] > 0) {
             return $result['result'];
+        } else {
+            return FALSE;
+        }
+    }
+
+    private function returnData($result) {
+        if (!empty($result['result']) && $result['result'] > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
         }
     }
 
