@@ -22,7 +22,7 @@ class callFlow_manager {
     }
 
     public function init_call_flow() {
-        $arr = array( "continue-or-finish", "enter-product-code", "enter-quantity", "error-no-id", "quantity-wanted", "units");
+        $arr = array("continue-or-finish", "enter-product-code", "enter-quantity", "error-no-id", "quantity-wanted", "units");
 
         $this->agi->answer();
         $cid = $this->agi->parse_callerid();
@@ -34,13 +34,45 @@ class callFlow_manager {
             $this->throw_error_messege("call from good cid", "next_step");
         }
     }
+    private function Flow(){
 
-    private function findProductStep($param) {
-        //enter product code
+        // get productId 
+        $productId = $this->findProductStep();
+
+         $step=$this->getNevigationKey("continue-or-finish", "19");
+        
+        //get nevigation 
+        // get productId 
+        //get product quntity
+        // add to order
+        // get more or finish
+    }
+
+    private function findProductStep($param = 0) {
+        $productNumber = $this->askUserProductId();
         //search for product 
-        // if find go to getQuntityStep 
-        // else 
-        // say error and start agein 
+        $productId = $this->get_product_by_id($productNumber);
+        if ($productId != False) {
+
+            return $productId;
+            // if find go to getQuntityStep 
+            // else 
+            // say error and start agein 
+        }
+        else{
+            return FALSE;
+        }
+    }
+
+    private function askUserProductId() {
+        $playFile = "";
+        $keys = array();
+        $result = $this->loopToGetUserData("getData", array($playFile, $keys));
+        if ($result == FALSE) {
+            //TODO
+            $this->throw_error_messege("", "");
+        }
+        return $result;
     }
 
     private function getQuntityStep($param) {
@@ -82,14 +114,13 @@ class callFlow_manager {
         $product = $this->productManager->getProbuctById($product_id);
         if (!empty($product)) {
             $this->read_product_details($product);
+            return $product->Id;
+        } else {
+            return FALSE;
         }
     }
 
-    public function is_product_id_valid($product_id) {
-        return !empty($product_id);
-    }
-
-    public function read_product_details($product, $next = '') {
+    public function read_product_details($product) {
 
         if (is_array($product)) {
             foreach ($product as $row) {
@@ -110,23 +141,22 @@ class callFlow_manager {
         
     }
 
-    private function sayFile($filename,$escape_digits="") {
+    private function sayFile($filename, $escape_digits = "") {
         if (!empty($filename)) {
-           return $this->agi->stream_file($filename, $escape_digits);
+            return $this->agi->stream_file($filename, $escape_digits);
         }
         return '';
     }
 
     private function getNevigationKey($playFile, $keys) {
         if (!empty($playFile)) {
-            $result = $this->loopToGetUserData("sayFile",array($playFile,$keys));
+            $result = $this->loopToGetUserData("sayFile", array($playFile, $keys));
             return $result;
         }
     }
 
-    private function getData($playFile, $onErr = "", $maxDigit = self::MAX_DIGIT) {
-           return $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
-
+    private function getData($playFile, $maxDigit = self::MAX_DIGIT) {
+        return $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
     }
 
     private function loopToGetUserData($function, $param) {
@@ -138,7 +168,7 @@ class callFlow_manager {
             var_dump($result);
             $this->agi->conlog("call {$function} with {$param}");
         } while (returnData($result) && $cycle < self::MAX_CYCLES);
-        if ($result['result'] > 0) {
+        if (intval( $result['result']) > 0) {
             return $result['result'];
         } else {
             return FALSE;
@@ -146,7 +176,7 @@ class callFlow_manager {
     }
 
     private function returnData($result) {
-        if (!empty($result['result']) && $result['result'] > 0) {
+        if (!empty($result['result']) && intval($result['result']) > 0) {
             return TRUE;
         } else {
             return FALSE;
