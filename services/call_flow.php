@@ -150,7 +150,7 @@ class callFlow_manager {
 
     private function getNevigationKey($playFile, $keys) {
         if (!empty($playFile)) {
-            $result = $this->loopToGetUserData("sayFile", array($playFile, $keys));
+            $result = $this->loopToGetUserData("getData", array($playFile));
             return $result;
         }
     }
