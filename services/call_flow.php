@@ -179,8 +179,11 @@ class callFlow_manager {
 
     private function returnData($result) {
         if (!empty($result['result']) && intval($result['result']) > 0) {
+           $this->agi->conlog("returnData=true-> {$result['result']}");
+
             return TRUE;
         } else {
+           $this->agi->conlog("returnData=false-> {$result['result']}");
             return FALSE;
         }
     }
