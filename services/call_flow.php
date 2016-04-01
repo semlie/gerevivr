@@ -28,7 +28,7 @@ class callFlow_manager {
         $cid = $this->agi->parse_callerid();
 
         if ($this->is_call_identified($cid)) {
-            $this->read_product_details($arr, "");
+            //$this->read_product_details($arr, "");
             $this->getNevigationKey("continue-or-finish", "19");
         } else {
             $this->throw_error_messege("call from good cid", "next_step");
@@ -95,7 +95,7 @@ class callFlow_manager {
         if (!empty($cid['username'])) {
 
             $this->callerItem = $this->callerManager->GetCallerItem($cid['username']);
-            $this->agi->say_digits($cid['username']);
+            //$this->agi->say_digits($cid['username']);
             return TRUE;
         } else {
             return FALSE;
@@ -164,8 +164,9 @@ class callFlow_manager {
         do {
             $cycle ++;
             $result = call_user_func_array(array($this, $function), $param);
+                    $id = implode("|", $result);
+
 //            $result = $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
-            var_dump($result);
             $this->agi->conlog("call {$function} with {$param}");
         } while (returnData($result) && $cycle < self::MAX_CYCLES);
         if (intval( $result['result']) > 0) {
