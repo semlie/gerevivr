@@ -169,7 +169,7 @@ class callFlow_manager {
             $this->agi->conlog("result = {$r}");
 //            $result = $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
             $this->agi->conlog("call {$function} with {$param}");
-        } while (!returnData($result) && $cycle < self::MAX_CYCLES);
+        } while (!$this->returnData($result) && $cycle < self::MAX_CYCLES);
         if (intval( $result['result']) > 0) {
             return $result['result'];
         } else {
