@@ -164,9 +164,9 @@ class callFlow_manager {
         do {
             $cycle ++;
             $result = call_user_func_array(array($this, $function), $param);
-                    $result = implode("|", $result);
+                    $r = implode("|", $result);
 
-            $this->agi->conlog("result = {$result}");
+            $this->agi->conlog("result = {$r}");
 //            $result = $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
             $this->agi->conlog("call {$function} with {$param}");
         } while (!returnData($result) && $cycle < self::MAX_CYCLES);
