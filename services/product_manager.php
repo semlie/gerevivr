@@ -22,13 +22,10 @@ class product_manager implements iproduct_manager {
     
         public function GetProductByCatalogNumber($catalogNumber) {
         $result = $this->productDataService->GetProductByCatalogNumber($catalogNumber);
-        if (!empty($result)) {
-            $resultArray = $this->mapProductToArray($result);
-            return $resultArray;
-        }
+        Return $result;
     }
 
-    private function mapProductToArray(product $product) {
+    public function mapProductToArray(product $product) {
         $row = array();
         $row[] = $product->FirstCategory;
         $row[] = $product->SecondaryCategory;
