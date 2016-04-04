@@ -162,7 +162,7 @@ class callFlow_manager {
     }
 
     public function get_product_by_id($product_id) {
-        $product = $this->productManager->getProbuctById($product_id);
+        $product = $this->productManager->GetProductByCatalogNumber($product_id);
         if (!empty($product)) {
             $this->say_array_details($product);
             return $product->Id;
