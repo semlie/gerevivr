@@ -88,7 +88,7 @@ class callFlow_manager {
     }
 
     private function askUserProductId() {
-        $playFile = "enter-product-code";
+        $playFile = "gerev/enter-product-code";
         $keys = array();
         $result = $this->loopToGetUserDataFromPhone("getData", array($playFile, $keys));
         if ($result == FALSE) {
@@ -100,7 +100,7 @@ class callFlow_manager {
     }
 
     private function getQuntityStep($param) {
-        $playFile = "enter-quantity";
+        $playFile = "gerev/enter-quantity";
         $keys = array();
         $count = 0;
         do {
