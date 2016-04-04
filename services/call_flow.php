@@ -165,7 +165,7 @@ class callFlow_manager {
         $product = $this->productManager->GetProductByCatalogNumber($product_id);
         if (!empty($product)) {
             $productArray = $this->productManager->mapProductToArray($product);
-            $this->say_array_details($productArray);
+           // $this->say_array_details($productArray);
             return $product->Id;
         } else {
             return FALSE;
