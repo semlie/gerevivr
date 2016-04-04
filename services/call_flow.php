@@ -81,9 +81,15 @@ class callFlow_manager {
     }
 
     private function addProductToOrder($productId, $quantity) {
+        $this->loger("addProductToOrder");
+        $this->loger($productId);
+        $this->loger("<product id | quntity>");
+        $this->loger($quantity);
+        
         if (empty($this->orderId)) {
             $this->orderId = $this->orderManager->CreateNewOrder($this->callerItem->Id);
         }
+
         $this->orderManager->AddNewItemForOrder($this->callerItem->Id, $this->orderId, $productId, $quantity);
     }
 
@@ -162,21 +168,21 @@ class callFlow_manager {
 
     public function say_array_details($order) {
         if (!empty($order)) {
-            
-        
-        $prefix = 'gerev/';
 
-        $this->sayFile($prefix.'order-id');
-        $this->agi->say_number($order->Id);
 
-        $this->sayFile($prefix.'total-items');
-        $this->agi->say_number($order->TotalItems);
+            $prefix = 'gerev/';
 
-        $this->sayFile($prefix.'total-price');
-        $this->agi->say_number($order->TotalPrice);
+            $this->sayFile($prefix . 'order-id');
+            $this->agi->say_number($order->Id);
 
-        $this->sayFile($prefix.'total-quantity');
-        $this->agi->say_number($order->TotalQuantity);
+            $this->sayFile($prefix . 'total-items');
+            $this->agi->say_number($order->TotalItems);
+
+            $this->sayFile($prefix . 'total-price');
+            $this->agi->say_number($order->TotalPrice);
+
+            $this->sayFile($prefix . 'total-quantity');
+            $this->agi->say_number($order->TotalQuantity);
         }
     }
 
@@ -248,6 +254,10 @@ class callFlow_manager {
             $this->agi->conlog("returnData=false-> {$result['result']}");
             return FALSE;
         }
+    }
+
+    private function loger($param) {
+        $this->agi->conlog("loger -------> {$param}");
     }
 
 }
