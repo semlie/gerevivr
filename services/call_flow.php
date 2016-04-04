@@ -240,6 +240,9 @@ class callFlow_manager {
         do {
             $cycle ++;
             $result = call_user_func_array(array($this, $function), $param);
+            $this->loger("loopToGetUserData");
+            $this->loger("$result ===== >");
+            $this->loger($result);
         } while (empty($result) && $cycle < self::MAX_CYCLES);
         if ($result != FALSE) {
             return $result;
