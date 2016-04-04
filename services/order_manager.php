@@ -29,8 +29,26 @@ class order_manager implements IOrderManager {
     }
 
     public function CalculateOrder($orderId) {
-        $order =  $this->UpdateOrderSum($orderId);
+        $order = $this->UpdateOrderSum($orderId);
         return $order;
+    }
+
+    public function MapOrderTotal(order $order) {
+        $row = array();
+
+        $row[] = 'order-id';
+        $row[] = $order->Id;
+
+        $row[] = 'total-items';
+        $row[] = $order->TotalItems;
+
+        $row[] = 'total-price';
+        $row[] = $order->TotalPrice;
+        
+        $row[] = 'total-quantity';
+        $row[] = $order->TotalQuantity;
+        
+        return $row;
     }
 
     private function UpdateOrderSum($orderId) {

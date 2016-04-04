@@ -8,7 +8,7 @@ require realpath(dirname(__FILE__)) . '/order_manager.php';
 class callFlow_manager {
 
     const MAX_DIGIT = 8;
-    CONST TIME_OUT = 15000;
+    CONST TIME_OUT = 10000;
     CONST MAX_CYCLES = 4;
     CONST FAILES_BASE_PATH = 'gerevsounds';
 
@@ -34,18 +34,36 @@ class callFlow_manager {
             $this->throw_error_messege("call from good cid", "next_step");
         }
     }
-    private function Flow(){
 
-        // get productId 
-        $productId = $this->findProductStep();
+    private function Flow() {
+        do {
 
-         $step=$this->getNevigationKey("continue-or-finish", "19");
-        
-        //get nevigation 
-        // get productId 
-        //get product quntity
-        // add to order
-        // get more or finish
+            // get productId 
+            $productId = $this->loopToGetUserData("findProductStep", array());
+            if ($productId == FALSE && !empty($this->orderId)) {
+                //TODO say error and close the call
+                $this->finishStep($this->orderId);
+                exit();
+            }
+
+            //get product quntity
+            $quantity = $this->loopToGetUserData("getQuntityStep", array($productId));
+            if ($quantity == FALSE && !empty($this->orderId)) {
+                //TODO say error and close the call
+                $this->finishStep($this->orderId);
+                exit();
+            }
+            //add to order
+            $this->addProductToOrder($productId, $quantity);
+
+            // get more or finish
+            $step = $this->getNevigationKey("continue-or-finish", "19");
+        } while ($step == 1);
+
+        if ($step == 9) {
+            $this->finishStep($this->orderId);
+            exit();
+        }
     }
 
     private function findProductStep($param = 0) {
@@ -55,42 +73,63 @@ class callFlow_manager {
         if ($productId != False) {
 
             return $productId;
-            // if find go to getQuntityStep 
-            // else 
-            // say error and start agein 
-        }
-        else{
+        } else {
             return FALSE;
         }
     }
 
+    private function addProductToOrder($productId, $quantity) {
+        if (empty($this->orderId)) {
+            $this->orderId = $this->orderManager->CreateNewOrder($this->callerItem->Id);
+        }
+        $this->orderManager->AddNewItemForOrder($this->callerItem->Id, $this->orderId, $productId, $quantity);
+    }
+
     private function askUserProductId() {
-        $playFile = "";
+        $playFile = "enter-product-code";
         $keys = array();
-        $result = $this->loopToGetUserData("getData", array($playFile, $keys));
+        $result = $this->loopToGetUserDataFromPhone("getData", array($playFile, $keys));
         if ($result == FALSE) {
             //TODO
             $this->throw_error_messege("", "");
+            return False;
         }
         return $result;
     }
 
     private function getQuntityStep($param) {
-        //say the product 
-        // ask qunitity
-        // validate quantity
-        // create order and add orderItem 
-        // ask if go to step finish or start
+        $playFile = "enter-quantity";
+        $keys = array();
+        $count = 0;
+        do {
+            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile, $keys));
+
+            if ($result == FALSE) {
+                //TODO
+                $this->throw_error_messege("", "");
+                return FALSE;
+            }
+            $validQty = $this->validate_quntity($result);
+        } while ($validQty != 1 && $count < self::MAX_CYCLES);
+        if ($validQty != FALSE) {
+
+            return $result;
+        } else {
+            return FALSE;
+        }
     }
 
     private function finishStep($param) {
         // close order and get total
+        $order = $this->orderManager->CalculateOrder($param);
+        $ordertotal = $this->orderManager->MapOrderTotal($order);
+        $this->say_array_details($ordertotal);
+        $this->agi->hangup();
         // say total 
         // hangup
     }
 
     public function is_call_identified($cid) {
-        $id = implode("|", array_keys($cid));
         $this->agi->conlog("call from {$cid['username']} ");
         if (!empty($cid['username'])) {
 
@@ -113,14 +152,14 @@ class callFlow_manager {
     public function get_product_by_id($product_id) {
         $product = $this->productManager->getProbuctById($product_id);
         if (!empty($product)) {
-            $this->read_product_details($product);
+            $this->say_array_details($product);
             return $product->Id;
         } else {
             return FALSE;
         }
     }
 
-    public function read_product_details($product) {
+    public function say_array_details($product) {
 
         if (is_array($product)) {
             foreach ($product as $row) {
@@ -129,8 +168,8 @@ class callFlow_manager {
         }
     }
 
-    public function validate_quntity($qty, $next) {
-        
+    public function validate_quntity($qty) {
+        return 1;
     }
 
     public function read_total_order() {
@@ -150,7 +189,7 @@ class callFlow_manager {
 
     private function getNevigationKey($playFile, $keys) {
         if (!empty($playFile)) {
-            $result = $this->loopToGetUserData("getData", array($playFile));
+            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile));
             return $result;
         }
     }
@@ -159,19 +198,30 @@ class callFlow_manager {
         return $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
     }
 
+    private function loopToGetUserDataFromPhone($function, $param) {
+        $cycle = 0;
+        do {
+            $cycle ++;
+            $result = call_user_func_array(array($this, $function), $param);
+
+//            $result = $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
+            $this->agi->conlog("call {$function} with {$param}");
+        } while (!$this->returnData($result) && $cycle < self::MAX_CYCLES);
+        if (intval($result['result']) > 0) {
+            return $result['result'];
+        } else {
+            return FALSE;
+        }
+    }
+
     private function loopToGetUserData($function, $param) {
         $cycle = 0;
         do {
             $cycle ++;
             $result = call_user_func_array(array($this, $function), $param);
-                    $r = implode("|", $result);
-
-            $this->agi->conlog("result = {$r}");
-//            $result = $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
-            $this->agi->conlog("call {$function} with {$param}");
-        } while (!$this->returnData($result) && $cycle < self::MAX_CYCLES);
-        if (intval( $result['result']) > 0) {
-            return $result['result'];
+        } while (empty($result) && $cycle < self::MAX_CYCLES);
+        if ($result != FALSE) {
+            return $result;
         } else {
             return FALSE;
         }
@@ -179,11 +229,11 @@ class callFlow_manager {
 
     private function returnData($result) {
         if (!empty($result['result']) && intval($result['result']) > 0) {
-           $this->agi->conlog("returnData=true-> {$result['result']}");
+            $this->agi->conlog("returnData=true-> {$result['result']}");
 
             return TRUE;
         } else {
-           $this->agi->conlog("returnData=false-> {$result['result']}");
+            $this->agi->conlog("returnData=false-> {$result['result']}");
             return FALSE;
         }
     }
