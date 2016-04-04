@@ -90,6 +90,9 @@ class callFlow_manager {
             $this->orderId = $this->orderManager->CreateNewOrder($this->callerItem->Id);
         }
 
+        $this->loger("$this->callerItem->Id");
+        $this->loger($this->callerItem->Id);
+        
         $this->orderManager->AddNewItemForOrder($this->callerItem->Id, $this->orderId, $productId, $quantity);
     }
 
