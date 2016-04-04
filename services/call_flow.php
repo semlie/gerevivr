@@ -30,7 +30,7 @@ class callFlow_manager {
         if ($this->is_call_identified($cid)) {
             //$this->read_product_details($arr, "");
             //$this->getNevigationKey("continue-or-finish", "19"); 
-            
+
             $this->Flow();
         } else {
             $this->throw_error_messege("call from good cid", "next_step");
@@ -124,8 +124,7 @@ class callFlow_manager {
     private function finishStep($param) {
         // close order and get total
         $order = $this->orderManager->CalculateOrder($param);
-        $ordertotal = $this->orderManager->MapOrderTotal($order);
-        $this->say_array_details($ordertotal);
+        $this->say_array_details($order);
         $this->agi->hangup();
         // say total 
         // hangup
@@ -161,12 +160,23 @@ class callFlow_manager {
         }
     }
 
-    public function say_array_details($product) {
+    public function say_array_details($order) {
+        if (!empty($order)) {
+            
+        
+        $prefix = 'gerev/';
 
-        if (is_array($product)) {
-            foreach ($product as $row) {
-                $this->sayFile("gerev/" . $row);
-            }
+        $this->sayFile($prefix.'order-id');
+        $this->agi->say_number($order->Id);
+
+        $this->sayFile($prefix.'total-items');
+        $this->agi->say_number($order->TotalItems);
+
+        $this->sayFile($prefix.'total-price');
+        $this->agi->say_number($order->TotalPrice);
+
+        $this->sayFile($prefix.'total-quantity');
+        $this->agi->say_number($order->TotalQuantity);
         }
     }
 
