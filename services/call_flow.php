@@ -100,6 +100,8 @@ class callFlow_manager {
         $playFile = "gerev/enter-product-code";
         $keys = array();
         $result = $this->loopToGetUserDataFromPhone("getData", array($playFile));
+        $this->loger("askUserProductId");
+        $this->loger("result == ".$result);
         if ($result == FALSE) {
             //TODO
             $this->throw_error_messege("", "");
