@@ -29,7 +29,8 @@ class callFlow_manager {
 
         if ($this->is_call_identified($cid)) {
             //$this->read_product_details($arr, "");
-            //$this->getNevigationKey("continue-or-finish", "19");
+            //$this->getNevigationKey("continue-or-finish", "19"); 
+            
             $this->Flow();
         } else {
             $this->throw_error_messege("call from good cid", "next_step");
