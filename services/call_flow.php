@@ -90,7 +90,7 @@ class callFlow_manager {
     private function askUserProductId() {
         $playFile = "gerev/enter-product-code";
         $keys = array();
-        $result = $this->loopToGetUserDataFromPhone("getData", array($playFile, $keys));
+        $result = $this->loopToGetUserDataFromPhone("getData", array($playFile));
         if ($result == FALSE) {
             //TODO
             $this->throw_error_messege("", "");
@@ -104,7 +104,7 @@ class callFlow_manager {
         $keys = array();
         $count = 0;
         do {
-            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile, $keys));
+            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile));
 
             if ($result == FALSE) {
                 //TODO
