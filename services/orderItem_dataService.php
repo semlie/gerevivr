@@ -41,18 +41,18 @@ class orderItem_dataService extends DataService implements sqlModel {
     }
 
     public function GetInsertString($orderItem) {
-        $sql = "insert into `ivr_orders`.`orderItems` (`Id`, `OrderId`, `ProductId`, `CollerId`, `Quantity`, `TimeStamp`) "
+        $sql = "insert into `ivr_orders`.`orderitems` (`Id`, `OrderId`, `ProductId`, `CollerId`, `Quantity`, `TimeStamp`) "
                 . "VALUES (NULL, '" . $orderItem->OrderId . "', '" . $orderItem->ProductId . "', '" . $orderItem->CollerId . "', '" . $orderItem->Quantity . "', CURRENT_TIMESTAMP);  ";
         return $sql;
     }
 
     public function GetUpdateString($orderItem) {
-        $sql = "update `ivr_orders`.`orderItems` set `OrderId` = '" . $orderItem->OrderId . "', `ProductId`='" . $orderItem->ProductId . "', `CollerId` = '" . $orderItem->CollerId . "', `Quantity` ='" . $orderItem->Quantity . "' WHERE `Id` = '" . $orderItem->Id . "'";
+        $sql = "update `ivr_orders`.`orderitems` set `OrderId` = '" . $orderItem->OrderId . "', `ProductId`='" . $orderItem->ProductId . "', `CollerId` = '" . $orderItem->CollerId . "', `Quantity` ='" . $orderItem->Quantity . "' WHERE `Id` = '" . $orderItem->Id . "'";
         return $sql;
     }
     
     public function GetAllItemsOfOrder($orderId){
-        $sql = " SELECT * FROM `ivr_orders`.`orderItems` WHERE `orderItems`.`OrderId` = '".$orderId."'";
+        $sql = " SELECT * FROM `ivr_orders`.`orderitems` WHERE `orderitems`.`OrderId` = '".$orderId."'";
 
         $result = $this->selectQuery($sql);
         $modelResult = array();
