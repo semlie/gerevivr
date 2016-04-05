@@ -25,7 +25,7 @@ class mail_service {
                 . '<p> total quntity : %4$s</p>',
                 $order->CallerItemId,
                 $order->TotalPrice,$order->TotalItems,$order->TotalQuantity);
-        $msg = sprintf('<table style="width:100%">
+        $msg = sprintf('<table style="width:100%%">
             <tr>
               <td>productId</td>
               <td>quntitny</td> 
