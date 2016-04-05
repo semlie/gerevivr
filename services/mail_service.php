@@ -14,7 +14,7 @@ class mail_service {
     public function sendOrderToAdmin($order, $orderItems, $caller) {
         $msg = $this->msgTemplate($order,$orderItems);
         var_dump($msg);
-        $this->sendEmail("israellieb@gmail.com", "israellieb@gmail.com", "new order {$order->ID}", $msg);
+        $this->sendEmail("israellieb@gmail.com", "israellieb@gmail.com", "new order {$order->Id}", $msg);
         
     }
 
@@ -47,7 +47,7 @@ class mail_service {
     }
 
     
-    private function sendEmail($to, $from, $subject, $message) {
+    private function sendEmail($to, $from, $subject, $msg) {
         $message = "
             <html>
             <head>
