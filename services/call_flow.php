@@ -75,7 +75,6 @@ class callFlow_manager {
         //search for product 
         $productId = $this->get_product_by_id($productNumber);
         if ($productId != False) {
-
             return $productId;
         } else {
             $this->throw_error_messege("gerev/err-not-valid-product");
@@ -107,7 +106,6 @@ class callFlow_manager {
         $this->loger("result == " . $result);
         if ($result == FALSE) {
             //TODO
-            $this->throw_error_messege("gerev/err-no-product-entered");
             return False;
         }
         return $result;
@@ -234,6 +232,9 @@ class callFlow_manager {
     private function loopToGetUserDataFromPhone($function, $param) {
         $cycle = 0;
         do {
+            if ($cycle > 0) {
+                $this->throw_error_messege("gerev/err-no-product-entered");
+            }
             $cycle ++;
             $result = call_user_func_array(array($this, $function), $param);
 
