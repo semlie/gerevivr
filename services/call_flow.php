@@ -78,7 +78,7 @@ class callFlow_manager {
 
             return $productId;
         } else {
-            $this->throw_error_messege("err-not-valid-product");
+            $this->throw_error_messege("gerev/err-not-valid-product");
             return FALSE;
         }
     }
@@ -107,7 +107,7 @@ class callFlow_manager {
         $this->loger("result == " . $result);
         if ($result == FALSE) {
             //TODO
-            $this->throw_error_messege("err-no-product-entered");
+            $this->throw_error_messege("gerev/err-no-product-entered");
             return False;
         }
         return $result;
