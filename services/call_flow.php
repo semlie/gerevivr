@@ -4,21 +4,23 @@ require realpath(dirname(__FILE__)) . '/../models/product.php';
 require realpath(dirname(__FILE__)) . '/product_manager.php';
 require realpath(dirname(__FILE__)) . '/caller_manager.php';
 require realpath(dirname(__FILE__)) . '/order_manager.php';
+require_once realpath(dirname(__FILE__)) . '/mail_service.php';
 
 class callFlow_manager {
 
     const MAX_DIGIT = 8;
-    CONST TIME_OUT = 10000;
+    CONST TIME_OUT = 8000;
     CONST MAX_CYCLES = 4;
     CONST FAILES_BASE_PATH = 'gerevsounds';
 
-    public $agi, $productManager, $callerManager, $callerItem, $orderId, $orderManager;
+    public $agi, $productManager, $callerManager, $callerItem, $orderId, $orderManager, $mailService;
 
     function __construct($agi) {
         $this->agi = $agi;
         $this->productManager = new product_manager();
         $this->callerManager = new caller_manager();
         $this->orderManager = new order_manager();
+        $this->mailService = new mail_service();
     }
 
     public function init_call_flow() {
@@ -85,14 +87,14 @@ class callFlow_manager {
         $this->loger($productId);
         $this->loger("<product id | quntity>");
         $this->loger($quantity);
-        
+
         if (empty($this->orderId)) {
             $this->orderId = $this->orderManager->CreateNewOrder($this->callerItem->Id);
         }
 
         $this->loger("$this->callerItem->Id");
         $this->loger($this->callerItem->Id);
-        
+
         $this->orderManager->AddNewItemForOrder($this->callerItem->Id, $this->orderId, $productId, $quantity);
     }
 
@@ -101,7 +103,7 @@ class callFlow_manager {
         $keys = array();
         $result = $this->loopToGetUserDataFromPhone("getData", array($playFile));
         $this->loger("askUserProductId");
-        $this->loger("result == ".$result);
+        $this->loger("result == " . $result);
         if ($result == FALSE) {
             //TODO
             $this->throw_error_messege("", "");
@@ -135,12 +137,17 @@ class callFlow_manager {
     private function finishStep($param) {
         // close order and get total
         $this->loger("finishStep");
-        $this->loger("param ==== > ".$param);
-        
+        $this->loger("param ==== > " . $param);
+
         $order = $this->orderManager->CalculateOrder($param);
+
         $this->say_array_details($order);
         $this->agi->hangup();
-        // say total 
+        $orderItemsArray = $this->orderManager->getOrderItems($order->Id);
+
+
+       $this->mailService->sendOrderToAdmin($order, $orderItemsArray, "");
+// say total 
         // hangup
     }
 
@@ -168,7 +175,7 @@ class callFlow_manager {
         $product = $this->productManager->GetProductByCatalogNumber($product_id);
         if (!empty($product)) {
             $productArray = $this->productManager->mapProductToArray($product);
-           // $this->say_array_details($productArray);
+            // $this->say_array_details($productArray);
             return $product->Id;
         } else {
             return FALSE;
@@ -189,10 +196,9 @@ class callFlow_manager {
 
             $this->sayFile($prefix . 'total-quantity');
             $this->agi->say_number($order->TotalQuantity);
-            
+
             $this->sayFile($prefix . 'total-price');
             $this->agi->say_number($order->TotalPrice);
-
         }
     }
 

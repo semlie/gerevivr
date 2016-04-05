@@ -15,6 +15,7 @@ class mail_service {
         $msg = $this->msgTemplate($order,$orderItems);
         var_dump($msg);
         $this->sendEmail("israellieb@gmail.com", "israellieb@gmail.com", "new order {$order->Id}", $msg);
+        $this->sendEmail("arieh.global4less@gmail.com", "israellieb@gmail.com", "new order {$order->Id}", $msg);
         
     }
 
