@@ -44,25 +44,41 @@ class order_manager implements IOrderManager {
 
         $row[] = 'total-price';
         $row[] = $order->TotalPrice;
-        
+
         $row[] = 'total-quantity';
         $row[] = $order->TotalQuantity;
-        
+
         return $row;
+    }
+
+    public function getOrderItemTotalPrice(order_item $item) {
+
+        $product = $this->productManager->getProbuctById($item->ProductId);
+
+        $totalPrice = ($product->Price * $item->Quantity);
+        $totalQuntity = $item->Quantity;
+
+        return array('totalPrice' => $totalPrice, 'totalQuntity' => $totalQuntity);
+    }
+    public function getOrderItems($orderId) {
+        return $this->orderItemDataService->GetAllItemsOfOrder($orderId);
     }
 
     private function UpdateOrderSum($orderId) {
         $order = $this->orderDataService->getById($orderId);
-        $allItems = $this->orderItemDataService->GetAllItemsOfOrder($orderId);
+        $allItems = $this->getOrderItems($orderId); // $this->orderItemDataService->GetAllItemsOfOrder($orderId);
         $totalPrice = 0;
         $totalQuntity = 0;
         $totalItems = count($allItems);
         if ($totalItems > 0) {
             foreach ($allItems as $item) {
-                $product = $this->productManager->getProbuctById($item->ProductId);
-
-                $totalPrice = $totalPrice + ($product->Price*$item->Quantity);
-                $totalQuntity = $totalQuntity + $item->Quantity;
+                $result = $this->getOrderItemTotalPrice($item);
+                
+//                $product = $this->productManager->getProbuctById($item->ProductId);
+//                $totalPrice = $totalPrice + ($product->Price * $item->Quantity);
+//                $totalQuntity = $totalQuntity + $item->Quantity;
+                $totalPrice = $totalPrice + $result['totalPrice'];
+                $totalQuntity = $totalQuntity + $result['totalQuntity'];
             }
         }
         $order->TotalItems = $totalItems;

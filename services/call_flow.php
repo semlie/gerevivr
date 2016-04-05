@@ -187,11 +187,12 @@ class callFlow_manager {
             $this->sayFile($prefix . 'total-items');
             $this->agi->say_number($order->TotalItems);
 
+            $this->sayFile($prefix . 'total-quantity');
+            $this->agi->say_number($order->TotalQuantity);
+            
             $this->sayFile($prefix . 'total-price');
             $this->agi->say_number($order->TotalPrice);
 
-            $this->sayFile($prefix . 'total-quantity');
-            $this->agi->say_number($order->TotalQuantity);
         }
     }
 
