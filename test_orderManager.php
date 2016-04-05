@@ -15,7 +15,7 @@ $orderId = $as->CreateNewOrder("54");
 var_dump($orderId);
 
 $as->AddNewItemForOrder("54", $orderId, "2", 3);
-$as->AddNewItemForOrder("54", $orderId, "1  ", 2);
+$as->AddNewItemForOrder("54", $orderId, "1", 2);
 
 $calc = $as->CalculateOrder($orderId);
 

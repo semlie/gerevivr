@@ -134,6 +134,9 @@ class callFlow_manager {
 
     private function finishStep($param) {
         // close order and get total
+        $this->loger("finishStep");
+        $this->loger("param ==== > ".$param);
+        
         $order = $this->orderManager->CalculateOrder($param);
         $this->say_array_details($order);
         $this->agi->hangup();
