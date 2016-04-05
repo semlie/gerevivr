@@ -61,7 +61,7 @@ class order_manager implements IOrderManager {
             foreach ($allItems as $item) {
                 $product = $this->productManager->getProbuctById($item->ProductId);
 
-                $totalPrice = $totalPrice + $product->Price;
+                $totalPrice = $totalPrice + ($product->Price*$item->Quantity);
                 $totalQuntity = $totalQuntity + $item->Quantity;
             }
         }
