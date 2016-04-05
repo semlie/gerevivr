@@ -35,7 +35,7 @@ class callFlow_manager {
 
             $this->Flow();
         } else {
-            $this->throw_error_messege("call from good cid", "next_step");
+            $this->throw_error_messege("error-no-id");
         }
     }
 
@@ -78,6 +78,7 @@ class callFlow_manager {
 
             return $productId;
         } else {
+            $this->throw_error_messege("err-not-valid-product");
             return FALSE;
         }
     }
@@ -106,7 +107,7 @@ class callFlow_manager {
         $this->loger("result == " . $result);
         if ($result == FALSE) {
             //TODO
-            $this->throw_error_messege("", "");
+            $this->throw_error_messege("err-no-product-entered");
             return False;
         }
         return $result;
@@ -165,8 +166,8 @@ class callFlow_manager {
         
     }
 
-    public function throw_error_messege($err_file_name, $next_step) {
-        
+    public function throw_error_messege($err_file_name) {
+        $this->sayFile($err_file_name);
     }
 
     public function get_product_by_id($product_id) {
