@@ -142,11 +142,9 @@ class callFlow_manager {
         $order = $this->orderManager->CalculateOrder($param);
 
         $this->say_array_details($order);
-        $this->agi->hangup();
         $orderItemsArray = $this->orderManager->getOrderItems($order->Id);
-
-
-       $this->mailService->sendOrderToAdmin($order, $orderItemsArray, "");
+        $this->mailService->sendOrderToAdmin($order, $orderItemsArray, "");
+        $this->agi->hangup();
 // say total 
         // hangup
     }
