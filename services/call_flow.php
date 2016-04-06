@@ -150,7 +150,7 @@ class callFlow_manager {
 
     public function is_call_identified($cid) {
         $this->agi->conlog("call from {$cid['username']} ");
-        if (!empty($cid['username'])) {
+        if (!empty($cid['username'])&&$cid['username']!="Restricted" ) {
 
             $this->callerItem = $this->callerManager->GetCallerItem($cid['username']);
             //$this->agi->say_digits($cid['username']);
