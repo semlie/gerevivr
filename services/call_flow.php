@@ -35,7 +35,7 @@ class callFlow_manager {
 
             $this->Flow();
         } else {
-            $this->throw_error_messege("error-no-id");
+            $this->throw_error_messege("gerev/error-no-id");
         }
     }
 
@@ -120,7 +120,7 @@ class callFlow_manager {
 
             if ($result == FALSE) {
                 //TODO
-                $this->throw_error_messege("", "");
+                $this->throw_error_messege("");
                 return FALSE;
             }
             $validQty = $this->validate_quntity($result);
