@@ -220,7 +220,7 @@ class callFlow_manager {
 
     private function getNevigationKey($playFile, $keys) {
         if (!empty($playFile)) {
-            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile,1));
+            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile,"1"));
             return $result;
         }
     }
