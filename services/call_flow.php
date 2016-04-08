@@ -272,8 +272,8 @@ class callFlow_manager {
 
     private function confirmOrCancel() {
         $result = $this->getData(self::FAILES_BASE_PATH . "confirm-or-cancel", "1");
-        $this->loger("confirmOrCancel ==========  result = {$result}");
-        return intval($result) == 1;
+        $this->loger("confirmOrCancel ==========  result = {$result['result']}");
+        return intval($result['result']) == 1;
     }
 
     private function loopToGetUserData($function, $param) {
