@@ -11,7 +11,7 @@ class callFlow_manager {
     const MAX_DIGIT = 8;
     CONST TIME_OUT = 8000;
     CONST MAX_CYCLES = 4;
-    CONST FAILES_BASE_PATH = 'gerevsounds';
+    CONST FAILES_BASE_PATH = 'gerev/';
 
     public $agi, $productManager, $callerManager, $callerItem, $orderId, $orderManager, $mailService;
 
@@ -35,7 +35,7 @@ class callFlow_manager {
 
             $this->Flow();
         } else {
-            $this->throw_error_messege("gerev/error-no-id");
+            $this->throw_error_messege(self::FAILES_BASE_PATH . "error-no-id");
         }
     }
 
@@ -74,13 +74,13 @@ class callFlow_manager {
         $productNumber = $this->askUserProductId();
         //search for product 
         $productId = $this->get_product_by_id($productNumber);
-        if ($productId != False &&$this->confirmOrCancel()) {
+        if ($productId != False && $this->confirmOrCancel()) {
             return $productId;
-        } 
-        if ($productId != False ) {
+        }
+        if ($productId != False) {
             return FALSE;
         } else {
-            $this->throw_error_messege("gerev/err-not-valid-product");
+            $this->throw_error_messege(self::FAILES_BASE_PATH . "err-not-valid-product");
             return FALSE;
         }
     }
@@ -102,7 +102,7 @@ class callFlow_manager {
     }
 
     private function askUserProductId() {
-        $playFile = "gerev/enter-product-code";
+        $playFile = self::FAILES_BASE_PATH . "enter-product-code";
         $keys = array();
         $result = $this->loopToGetUserDataFromPhone("getData", array($playFile));
         $this->loger("askUserProductId");
@@ -115,7 +115,7 @@ class callFlow_manager {
     }
 
     private function getQuntityStep($param) {
-        $playFile = "gerev/enter-quantity";
+        $playFile = self::FAILES_BASE_PATH . "enter-quantity";
         $keys = array();
         $count = 0;
         do {
@@ -153,7 +153,7 @@ class callFlow_manager {
 
     public function is_call_identified($cid) {
         $this->agi->conlog("call from {$cid['username']} ");
-        if (!empty($cid['username'])&&$cid['username']!="Restricted" ) {
+        if (!empty($cid['username']) && $cid['username'] != "Restricted") {
 
             $this->callerItem = $this->callerManager->GetCallerItem($cid['username']);
             //$this->agi->say_digits($cid['username']);
@@ -186,7 +186,7 @@ class callFlow_manager {
         if (!empty($order)) {
 
 
-            $prefix = 'gerev/';
+            $prefix = self::FAILES_BASE_PATH;
 
             $this->sayFile($prefix . 'order-id');
             $this->agi->say_number($order->Id);
@@ -223,7 +223,7 @@ class callFlow_manager {
 
     private function getNevigationKey($playFile, $keys) {
         if (!empty($playFile)) {
-            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile,"1"));
+            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile, "1"));
             return $result;
         }
     }
@@ -236,12 +236,11 @@ class callFlow_manager {
         $cycle = 0;
         do {
             if ($cycle > 0) {
-                $this->throw_error_messege("gerev/err-no-product-entered");
+                $this->throw_error_messege(self::FAILES_BASE_PATH . "err-no-product-entered");
             }
             $cycle ++;
             $result = call_user_func_array(array($this, $function), $param);
 
-//            $result = $this->agi->get_data($playFile, self::TIME_OUT, $maxDigit);
             $this->agi->conlog("call {$function} with {$param}");
         } while (!$this->returnData($result) && $cycle < self::MAX_CYCLES);
         if (intval($result['result']) > 0) {
@@ -250,11 +249,12 @@ class callFlow_manager {
             return FALSE;
         }
     }
-    
+
     private function confirmOrCancel() {
-        $result = $this->getData("confirm-or-cancel",1);
-        return $result == 1;
+        $result = $this->getData(self::FAILES_BASE_PATH . "confirm-or-cancel", "1");
+        return intval($result) == 1;
     }
+
     private function loopToGetUserData($function, $param) {
         $cycle = 0;
         do {
