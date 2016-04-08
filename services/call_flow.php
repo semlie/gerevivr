@@ -74,8 +74,11 @@ class callFlow_manager {
         $productNumber = $this->askUserProductId();
         //search for product 
         $productId = $this->get_product_by_id($productNumber);
-        if ($productId != False) {
+        if ($productId != False &&$this->confirmOrCancel()) {
             return $productId;
+        } 
+        if ($productId != False ) {
+            return FALSE;
         } else {
             $this->throw_error_messege("gerev/err-not-valid-product");
             return FALSE;
