@@ -74,7 +74,7 @@ class callFlow_manager {
         $productNumber = $this->askUserProductId();
 //search for product 
         $productId = $this->get_product_by_id($productNumber);
-        if ($productId != False && $this->confirmOrCancel()) {
+        if ($productId != False) {
             return $productId;
         }
         if ($productId != False) {
