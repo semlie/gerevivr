@@ -185,6 +185,16 @@ class callFlow_manager {
         return FALSE;
     }
 
+    public function say_array_product($productArray) {
+        if (!empty($productArray)) {
+            foreach ($productArray as $value) {
+                $prefix = self::FAILES_BASE_PATH;
+
+                $this->sayFile($prefix . $value);
+            }
+        }
+    }
+
     public function say_array_details($order) {
         if (!empty($order)) {
 
@@ -210,7 +220,7 @@ class callFlow_manager {
     }
 
     public function validate_product($productArray) {
-        $this->say_array_details($productArray);
+        $this->say_array_product($productArray);
         return $this->confirmOrCancel();
     }
 
