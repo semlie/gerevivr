@@ -76,11 +76,7 @@ class callFlow_manager {
         $productId = $this->get_product_by_id($productNumber);
         if ($productId != False) {
             return $productId;
-        }
-        if ($productId != False) {
-            return FALSE;
         } else {
-            $this->throw_error_messege(self::FAILES_BASE_PATH . "err-not-valid-product");
             return FALSE;
         }
     }
@@ -175,6 +171,9 @@ class callFlow_manager {
 
     public function get_product_by_id($product_id) {
         $product = $this->productManager->GetProductByCatalogNumber($product_id);
+        if (empty($product)) {
+            $this->throw_error_messege(self::FAILES_BASE_PATH . "err-not-valid-product");
+        }
         if (!empty($product)) {
             $productArray = $this->productManager->mapProductToArray($product);
 
