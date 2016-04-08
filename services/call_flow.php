@@ -30,8 +30,8 @@ class callFlow_manager {
         $cid = $this->agi->parse_callerid();
 
         if ($this->is_call_identified($cid)) {
-            //$this->read_product_details($arr, "");
-            //$this->getNevigationKey("continue-or-finish", "19"); 
+//$this->read_product_details($arr, "");
+//$this->getNevigationKey("continue-or-finish", "19"); 
 
             $this->Flow();
         } else {
@@ -42,25 +42,25 @@ class callFlow_manager {
     private function Flow() {
         do {
 
-            // get productId 
+// get productId 
             $productId = $this->loopToGetUserData("findProductStep", array());
             if ($productId == FALSE && !empty($this->orderId)) {
-                //TODO say error and close the call
+//TODO say error and close the call
                 $this->finishStep($this->orderId);
                 exit();
             }
 
-            //get product quntity
+//get product quntity
             $quantity = $this->loopToGetUserData("getQuntityStep", array($productId));
             if ($quantity == FALSE && !empty($this->orderId)) {
-                //TODO say error and close the call
+//TODO say error and close the call
                 $this->finishStep($this->orderId);
                 exit();
             }
-            //add to order
+//add to order
             $this->addProductToOrder($productId, $quantity);
 
-            // get more or finish
+// get more or finish
             $step = $this->getNevigationKey("continue-or-finish", "19");
         } while ($step == 1);
 
@@ -72,7 +72,7 @@ class callFlow_manager {
 
     private function findProductStep($param = 0) {
         $productNumber = $this->askUserProductId();
-        //search for product 
+//search for product 
         $productId = $this->get_product_by_id($productNumber);
         if ($productId != False && $this->confirmOrCancel()) {
             return $productId;
@@ -108,10 +108,12 @@ class callFlow_manager {
         $this->loger("askUserProductId");
         $this->loger("result == " . $result);
         if ($result == FALSE) {
-            //TODO
+//TODO
             return False;
+        } else {
+
+            return $result;
         }
-        return $result;
     }
 
     private function getQuntityStep($param) {
@@ -122,7 +124,7 @@ class callFlow_manager {
             $result = $this->loopToGetUserDataFromPhone("getData", array($playFile));
 
             if ($result == FALSE) {
-                //TODO
+//TODO
                 $this->throw_error_messege("");
                 return FALSE;
             }
@@ -137,7 +139,7 @@ class callFlow_manager {
     }
 
     private function finishStep($param) {
-        // close order and get total
+// close order and get total
         $this->loger("finishStep");
         $this->loger("param ==== > " . $param);
 
@@ -148,7 +150,7 @@ class callFlow_manager {
         $this->mailService->sendOrderToAdmin($order, $orderItemsArray, "");
         $this->agi->hangup();
 // say total 
-        // hangup
+// hangup
     }
 
     public function is_call_identified($cid) {
@@ -156,7 +158,7 @@ class callFlow_manager {
         if (!empty($cid['username']) && $cid['username'] != "Restricted") {
 
             $this->callerItem = $this->callerManager->GetCallerItem($cid['username']);
-            //$this->agi->say_digits($cid['username']);
+//$this->agi->say_digits($cid['username']);
             return TRUE;
         } else {
             return FALSE;
@@ -175,11 +177,12 @@ class callFlow_manager {
         $product = $this->productManager->GetProductByCatalogNumber($product_id);
         if (!empty($product)) {
             $productArray = $this->productManager->mapProductToArray($product);
-            // $this->say_array_details($productArray);
-            return $product->Id;
-        } else {
-            return FALSE;
+
+            if ($this->validate_product($productArray)) {
+                return $product->Id;
+            }
         }
+        return FALSE;
     }
 
     public function say_array_details($order) {
@@ -204,6 +207,11 @@ class callFlow_manager {
 
     public function validate_quntity($qty) {
         return 1;
+    }
+
+    public function validate_product($productArray) {
+        $this->say_array_details($productArray);
+        return $this->confirmOrCancel();
     }
 
     public function read_total_order() {
