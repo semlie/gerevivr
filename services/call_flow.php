@@ -220,7 +220,7 @@ class callFlow_manager {
 
     private function getNevigationKey($playFile, $keys) {
         if (!empty($playFile)) {
-            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile));
+            $result = $this->loopToGetUserDataFromPhone("getData", array($playFile,1));
             return $result;
         }
     }
@@ -247,7 +247,11 @@ class callFlow_manager {
             return FALSE;
         }
     }
-
+    
+    private function confirmOrCancel() {
+        $result = $this->getData("confirm-or-cancel",1);
+        return $result == 1;
+    }
     private function loopToGetUserData($function, $param) {
         $cycle = 0;
         do {
