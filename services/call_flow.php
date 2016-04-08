@@ -108,7 +108,7 @@ class callFlow_manager {
         $this->loger("askUserProductId");
         $this->loger("result == " . $result);
         if ($result == FALSE) {
-//TODO
+            //TODO
             return False;
         } else {
 
@@ -221,7 +221,9 @@ class callFlow_manager {
 
     public function validate_product($productArray) {
         $this->say_array_product($productArray);
-        return $this->confirmOrCancel();
+        $result = $this->confirmOrCancel();
+        $this->loger("validate_product  ========= > result = {$result}");
+        return $result;
     }
 
     public function read_total_order() {
@@ -270,6 +272,7 @@ class callFlow_manager {
 
     private function confirmOrCancel() {
         $result = $this->getData(self::FAILES_BASE_PATH . "confirm-or-cancel", "1");
+        $this->loger("confirmOrCancel ==========  result = {$result}");
         return intval($result) == 1;
     }
 
