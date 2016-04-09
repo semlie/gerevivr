@@ -61,7 +61,7 @@ class callFlow_manager {
             $this->addProductToOrder($productId, $quantity);
 
 // get more or finish
-            $step = $this->getNevigationKey("continue-or-finish", "19");
+            $step = $this->getNevigationKey(self::FAILES_BASE_PATH ."continue-or-finish", "19");
         } while ($step == 1);
 
         if ($step == 9) {

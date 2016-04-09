@@ -59,6 +59,10 @@ class product_manager implements iproduct_manager {
             $row[] = 'example';
             $row[] = $product->Example;
         }
+        if (!empty($product->Strength)) {
+
+            $row[] = $product->Strength;
+        }
         return $row;
     }
 
