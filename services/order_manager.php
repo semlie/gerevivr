@@ -63,6 +63,9 @@ class order_manager implements IOrderManager {
     public function getOrderItems($orderId) {
         return $this->orderItemDataService->GetAllItemsOfOrder($orderId);
     }
+    public function getOrderItemsPrinModel($orderId) {
+        return $this->orderItemDataService->GetAllItemsOfOrderToPrintModel($orderId);
+    }
 
     private function UpdateOrderSum($orderId) {
         $order = $this->orderDataService->getById($orderId);

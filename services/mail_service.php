@@ -1,5 +1,6 @@
 <?php
 require_once realpath(dirname(__FILE__)) . '/../models/order_item.php';
+require_once realpath(dirname(__FILE__)) . '/../models/order_item_print.php';
 require_once realpath(dirname(__FILE__)) . '/../models/order.php';
 require_once realpath(dirname(__FILE__)) . '/order_manager.php';
 
@@ -26,24 +27,27 @@ class mail_service {
                 . '<p> total quntity : %4$s</p>',
                 $order->CallerItemId,
                 $order->TotalPrice,$order->TotalItems,$order->TotalQuantity);
-        $msg = sprintf('<table style="width:100%%">
+        $msg = sprintf('<table border="1" style="width:100%%">
             <tr>
-              <td>productId</td>
-              <td>quntitny</td> 
-              <td>price</td>
+              <td>Product Id</td>
+              <td>Product Name</td>
+              <td>Quntitny</td> 
+              <td>Unit Price</td>
+              <td>Price</td>
             </tr>
             %1$s
           </table>',implode(" ", $mapItems));
         return $msgHeader.$msg;
     }
 
-    private function msgOrderItemArrayTemplate(order_item $orderItem) {
-        $result = $this->orderManager->getOrderItemTotalPrice($orderItem);
+    private function msgOrderItemArrayTemplate(order_item_print $orderItem) {
         $arr = sprintf( '<tr>
               <td>%1$s</td>
               <td>%2$s</td> 
               <td>%3$s</td>
-            </tr>',$orderItem->ProductId,$orderItem->Quantity,$result['totalPrice']);
+              <td>%4$s</td>
+              <td>%5$s</td>
+            </tr>',$orderItem->ProductId,$orderItem->ProductName,$orderItem->Quantity,$orderItem->PriceUnit,$orderItem->PriceOrderItem);
         return $arr;
     }
 

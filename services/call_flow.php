@@ -61,7 +61,7 @@ class callFlow_manager {
             $this->addProductToOrder($productId, $quantity);
 
 // get more or finish
-            $step = $this->getNevigationKey(self::FAILES_BASE_PATH ."continue-or-finish", "19");
+            $step = $this->getNevigationKey(self::FAILES_BASE_PATH . "continue-or-finish", "19");
         } while ($step == 1);
 
         if ($step == 9) {
@@ -142,7 +142,11 @@ class callFlow_manager {
         $order = $this->orderManager->CalculateOrder($param);
 
         $this->say_array_details($order);
-        $orderItemsArray = $this->orderManager->getOrderItems($order->Id);
+        $this->say_array_details($order);
+        $this->sayFile(self::FAILES_BASE_PATH . 'thank');
+
+        $orderItemsArray = $this->orderManager->getOrderItemsPrinModel($order->Id);
+        
         $this->mailService->sendOrderToAdmin($order, $orderItemsArray, "");
         $this->agi->hangup();
 // say total 
@@ -210,7 +214,7 @@ class callFlow_manager {
             $this->agi->say_number($order->TotalQuantity);
 
             $this->sayFile($prefix . 'total-price');
-            $this->agi->say_number($order->TotalPrice);
+            $this->agi->say_number($order->TotalPrice);          
         }
     }
 
