@@ -12,24 +12,24 @@ class mail_service {
 
     //put your code here
 
-    public function sendOrderToAdmin($order, $orderItems, $caller) {
-        $msg = $this->msgTemplate($order,$orderItems);
+    public function sendOrderToAdmin($cidNumber,$order, $orderItems, $caller) {
+        $msg = $this->msgTemplate($cidNumber,$order,$orderItems);
         var_dump($msg);
         $this->sendEmail("israellieb@gmail.com", "israellieb@gmail.com", "new order {$order->Id}", $msg);
         $this->sendEmail("arieh.global4less@gmail.com", "israellieb@gmail.com", "new order {$order->Id}", $msg);
         
     }
 
-    private function msgTemplate(order $order,$orderItems) {
+    private function msgTemplate($cidNumber ,order $order,$orderItems) {
         $mapItems = array_map(array($this, 'msgOrderItemArrayTemplate'), $orderItems);
         $msgHeader =  sprintf('<h1>order from line : %1$s </h1><hr> <p> total order : %2$s</p>'
                 . '<p> total items : %3$s</p>'
                 . '<p> total quntity : %4$s</p>',
-                $order->CallerItemId,
+                $cidNumber['PhoneNumber'],
                 $order->TotalPrice,$order->TotalItems,$order->TotalQuantity);
         $msg = sprintf('<table border="1" style="width:100%%">
             <tr>
-              <td>Product Id</td>
+              <td>Product CatalogNumber</td>
               <td>Product Name</td>
               <td>Quntitny</td> 
               <td>Unit Price</td>

@@ -44,7 +44,7 @@ class orderItem_dataService extends DataService implements sqlModel {
         $result = new order_item_print;
         $result->OrderId = $row['OrderId'];
         $result->ProductName = $row['Name'];
-        $result->ProductId = $row['ProductId'];
+        $result->ProductId = $row['CatalogNumber'];
         $result->Quantity = $row['Quantity'];
         $result->PriceUnit = $row['Price'];
         $result->PriceOrderItem = ($row['Price']*$row['Quantity']);
@@ -78,7 +78,7 @@ class orderItem_dataService extends DataService implements sqlModel {
 
     }
     public function GetAllItemsOfOrderToPrintModel($orderId){
-        $sql = " SELECT `orderitems`.`OrderId`, `orderitems`.`ProductId` ,`products`.`Price`, `orderitems`.`Quantity`,`products`.`Name`
+        $sql = " SELECT `orderitems`.`OrderId`, `orderitems`.`ProductId` ,`products`.`Price`, `orderitems`.`Quantity`,`products`.`Name`,`products`.`CatalogNumber`
                 FROM `ivr_orders`.`orderitems`
                 inner join `ivr_orders`.`products` on `orderitems`.`ProductId` = `products`.`Id`
                 where `orderitems`.`OrderId` ='".$orderId."' ";

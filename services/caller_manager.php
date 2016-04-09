@@ -46,6 +46,9 @@ class caller_manager implements ICaller_manager {
         return $caller->Id;
     }
 
+    public function GetPhoneNumbar($callerId) {
+        return $this->callerDataService->GetCallerNumberFromCallerId($callerId);
+    }
 
 
 }

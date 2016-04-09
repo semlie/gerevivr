@@ -146,8 +146,8 @@ class callFlow_manager {
         $this->sayFile(self::FAILES_BASE_PATH . 'thank');
 
         $orderItemsArray = $this->orderManager->getOrderItemsPrinModel($order->Id);
-        
-        $this->mailService->sendOrderToAdmin($order, $orderItemsArray, "");
+        $cidNumber = $this->callerManager->GetPhoneNumbar($order->CallerItemId);
+        $this->mailService->sendOrderToAdmin($cidNumber,$order, $orderItemsArray, "");
         $this->agi->hangup();
 // say total 
 // hangup

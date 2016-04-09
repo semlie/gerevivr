@@ -11,14 +11,13 @@
  *
  * @author Admin
  */
-require_once  realpath(dirname(__FILE__)) . '/data_service.php';
-require_once  realpath(dirname(__FILE__)) . '/../models/caller.php';
-require_once  realpath(dirname(__FILE__)) . '/../models/sql_model.php';
-require_once  realpath(dirname(__FILE__)) . '/../config.php';
+require_once realpath(dirname(__FILE__)) . '/data_service.php';
+require_once realpath(dirname(__FILE__)) . '/../models/caller.php';
+require_once realpath(dirname(__FILE__)) . '/../models/sql_model.php';
+require_once realpath(dirname(__FILE__)) . '/../config.php';
 
 class caller_dataService extends DataService implements sqlModel {
 
-    
     public function __construct() {
         parent::__construct(Config::getConttext(), "caller");
     }
@@ -45,13 +44,13 @@ class caller_dataService extends DataService implements sqlModel {
 
     public function GetInsertString($caller) {
         $sql = "INSERT INTO `ivr_orders`.`caller` (`Id`,`Name`, `Address`, `City`, `PhoneNumber`, `OtherPhone`, `Notes`,`TimeStamp`) "
-        ."VALUES ('','".$caller->Name."', '".$caller->Address."', '".$caller->City."', '".$caller->PhoneNumber."', '".$caller->OtherPhone."', '".$caller->Notes."',CURRENT_TIMESTAMP);";
+                . "VALUES ('','" . $caller->Name . "', '" . $caller->Address . "', '" . $caller->City . "', '" . $caller->PhoneNumber . "', '" . $caller->OtherPhone . "', '" . $caller->Notes . "',CURRENT_TIMESTAMP);";
 
-              return $sql;
+        return $sql;
     }
 
     public function GetUpdateString($caller) {
-        $sql ="UPDATE `ivr_orders`.`caller` SET "
+        $sql = "UPDATE `ivr_orders`.`caller` SET "
                 . "`Name`='" . $caller->Name . "', "
                 . "`Address`='" . $caller->Address . "', "
                 . "`City`='" . $caller->City . "', "
@@ -61,9 +60,10 @@ class caller_dataService extends DataService implements sqlModel {
                 . "WHERE `Id`='" . $caller->Id . "';";
         return $sql;
     }
+
     public function GetCallerByPhoneNumber($phoneNumber) {
-        
-        $sql = " SELECT * FROM `ivr_orders`.`caller` WHERE `caller`.`PhoneNumber` = '".$phoneNumber."'";
+
+        $sql = " SELECT * FROM `ivr_orders`.`caller` WHERE `caller`.`PhoneNumber` = '" . $phoneNumber . "'";
 
         $result = $this->selectQuery($sql);
         $row = ($result != FALSE) ? mysqli_fetch_assoc($result) : '';
@@ -71,4 +71,16 @@ class caller_dataService extends DataService implements sqlModel {
 
         return $modelResult;
     }
+
+    public function GetCallerNumberFromCallerId($callerId) {
+        $sql = "select PhoneNumber 
+                from `ivr_orders`.`caller`
+                inner join `ivr_orders`.`caller_item` on `caller_item`.`CallerId` = `caller`.`Id`
+                where `caller_item`.`Id` = '".$callerId."'";
+        $result = $this->selectQuery($sql);
+        $row = ($result != FALSE) ? mysqli_fetch_assoc($result) : '';
+        $modelResult = ($row > 0) ? $row : '';
+        return $modelResult;
+    }
+
 }

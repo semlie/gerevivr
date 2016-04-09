@@ -11,3 +11,5 @@ $d = $a->GetCallerIdByNumber('0527146367');
 
 var_dump($d);
 
+$rr =  $a->GetPhoneNumbar(1);
+var_dump($rr);
