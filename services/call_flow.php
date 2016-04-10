@@ -147,7 +147,7 @@ class callFlow_manager {
 
         $orderItemsArray = $this->orderManager->getOrderItemsPrinModel($order->Id);
         $cidNumber = $this->callerManager->GetPhoneNumbar($order->CallerItemId);
-        $this->mailService->sendOrderToAdmin($cidNumber,$order, $orderItemsArray, "");
+        $this->mailService->sendOrderToAdmin($cidNumber, $order, $orderItemsArray, "");
         $this->agi->hangup();
 // say total 
 // hangup
@@ -214,7 +214,7 @@ class callFlow_manager {
             $this->agi->say_number($order->TotalQuantity);
 
             $this->sayFile($prefix . 'total-price');
-            $this->agi->say_number($order->TotalPrice);          
+            $this->sayDecimal($order->TotalPrice);
         }
     }
 
@@ -308,6 +308,22 @@ class callFlow_manager {
 
     private function loger($param) {
         $this->agi->conlog("loger -------> {$param}");
+    }
+
+    private function sayDecimal($number) {
+        $whole = floor($number);      // 1
+        $fraction = 100*($number - $whole); // .25
+        
+        
+        $this->agi->say_number($whole);
+        $this->sayFile("shkalim");
+        
+        if($fraction>0){
+        $this->sayFile("and");
+        $this->agi->say_number($fraction);
+        $this->sayFile("agorot");
+            
+        }
     }
 
 }
