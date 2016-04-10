@@ -316,12 +316,12 @@ class callFlow_manager {
         
         
         $this->agi->say_number($whole);
-        $this->sayFile("shkalim");
+        $this->sayFile(self::FAILES_BASE_PATH."shkalim");
         
         if($fraction>0){
-        $this->sayFile("and");
+        $this->sayFile(self::FAILES_BASE_PATH."and");
         $this->agi->say_number($fraction);
-        $this->sayFile("agorot");
+        $this->sayFile(self::FAILES_BASE_PATH."agorot");
             
         }
     }
